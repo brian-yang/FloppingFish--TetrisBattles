@@ -1,3 +1,9 @@
+====================================================================
+DW: Please take the design doc instructons out of the final version. 
+    Provide more information about how you will be using the class concepts.
+    Porvide a tentative timeline
+====================================================================
+
 FINAL PROJECT - TETRIS BATTLE 2P
 
 Each student or group must create a file in their repository named DESIGN. The file should be a plain text file and it should contain the following.
