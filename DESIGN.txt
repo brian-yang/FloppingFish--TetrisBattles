@@ -1,42 +1,35 @@
 ====================================================================
-DW: Please take the design doc instructons out of the final version. 
+DW: Please take the design doc instructons out of the final version.
     Provide more information about how you will be using the class concepts.
     Porvide a tentative timeline
 ====================================================================
 
 FINAL PROJECT - TETRIS BATTLE 2P
 
-Each student or group must create a file in their repository named DESIGN. The file should be a plain text file and it should contain the following.
+Requirements:
+Each student or group must create a file in their repository named DESIGN. The file should be a plain text file and it should contain the following:
 The names of the people in the group.
-
 A statement of the problem you are solving and/or a high level description of the project.
-
 A description as to how the project will be used (describe the user interface).
-
 A description of your technical design. This should include:
-
-How you will be using the topics covered in class in the project.
-
-How you are breaking down the project and who is responsible for which parts.
-
-What data structures you will be using and how.	 
-
-What algorithms you will be using, and how.	
-
-A timeline with expected completion dates of parts of the project.
+  - How you will be using the topics covered in class in the project.
+  - How you are breaking down the project and who is responsible for which parts.
+  - What data structures you will be using and how.
+  - What algorithms you will be using, and how.
+  - A timeline with expected completion dates of parts of the project.
 
 Team: Anthony Liang, Brian Yang, Shaeq Ahmed
 
 Description of Project: Recreating the popular Facebook game Tetris Battle using the terminal as the GUI
 
-User Interface: The terminal will be split into two screens (Player1 and Player2) and a header bar. The header bar indicates player information (name, lines sent, current score) as well as time remaining in the current battle. The screens will have the Tetris display in the center. On the left is the piece in Hold, while the subsequent pieces are on the right. 
+User Interface: The terminal will be split into two screens (Player1 and Player2) and a header bar. The header bar indicates player information (name, lines sent, current score) as well as time remaining in the current battle. The screens will have the Tetris display in the center. On the left is the piece in Hold, while the subsequent pieces are on the right.
 
 Technical Design: (not exactly sure if these are correct)
-Allocating memory - for the tetris board and each tiles. 
-Working with files. - possibly write into files player stats, victories, losses, lines sent) 
+Allocating memory - for the tetris board and each tiles.
+Working with files. - possibly write into files player stats, victories, losses, lines sent)
 Finding information about files (stat and such). - to display player stats
-Processes (forking, exec etc.). 
+Processes (forking, exec etc.).
 Signals - ending the game when someone wins or loses
 Pipes (named and unnamed).
-Shared memory, semaphores. 
-Networking. - the multiplayer aspect of the game, allowing 2P to versuses each other 
+Shared memory, semaphores.
+Networking. - the multiplayer aspect of the game, allowing 2P to versuses each other
