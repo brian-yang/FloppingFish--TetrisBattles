@@ -76,6 +76,6 @@ Timeline:
 
 12/16 - Have 2 players be able to connect to the server and be able to start the game with each other
 
-12/18 - Scoring,  remove line function, border detection finished. Core functionality done and basic tetris game is now functional.
+12/18 - Scoring, remove line function, border detection finished. Core functionality done and basic tetris game is now functional.
 
 12/21 - Finish networking, have any number of players connect to the server and finish a game of Tetris Battle 2P with another person, Tetris Battle's Replica complete
