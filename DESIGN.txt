@@ -1,17 +1,14 @@
 ﻿FINAL PROJECT - TETRIS BATTLE 2 PLAYER
 TeamFloppingFish: Anthony Liang, Brian Yang, Shaeq Ahmed
 
+Description of Project:
+This project is intended to be a replica of the popular Facebook game Tetris Battle, in which players play Tetris against each other and can add lines to their opponent’s game by completing lines in their own game. Players can also see their opponents playing at the same time on their screens. In this version of Tetris Battle, the terminal will be used as the GUI. Beyond basic gameplay, a core focus of our Tetris game is on asynchronous gameplay (pseudo multiplayer). Our version of Tetris uses the standard grid size, a board 10 units wide and 20 units high. The game will have seven color coded tetromino shapes which can be represented with letters that suit the overall structure of the piece: I, J, L, O, S, T, Z.
 
-Description of Project: 
-This project is intended to be a replica of the popular Facebook game Tetris Battle, in which players play Tetris against each other and can add lines to their opponent’s game by completing lines in their own game. Players can also see their opponents playing at the same time on their screens. In this version of Tetris Battle, the terminal will be used as the GUI. Beyond basic gameplay, a core focus of our Tetris game is on asynchronous gameplay (pseudo multiplayer). Our version of Tetris uses the standard grid size, a board 10 units wide and 20 units high. The game will have seven color coded tetromino shapes which can be represented with letters that suit the overall structure of the piece: I, J, L, O, S, T, Z. 
-
-
-User Interface: 
+User Interface:
 The terminal will be split into two screens (Player1 and Player2) and a header bar. The header bar indicates player information (name, lines sent, current score) as well as time remaining in the current battle. The screens will have the Tetris display in the center. On the left is the piece in Hold, while the subsequent pieces are on the right.
 
-
 Technical Design:
-Allocating memory 
+Allocating memory
 	* for the tetris board and each game piece type.
 Working with files
 	* keep track of high scores
@@ -29,15 +26,13 @@ Networking.
 	* the multiplayer aspect of the game, allowing 2P to verse each other
 	* have multiple clients connect to the server, having each player start a game with an opponent as soon as an opponent is available
 
-
 Algorithms:
-	* Border Detection: allows the blocks to land in the correct position and restricts block movement to grid 
+	* Border Detection: allows the blocks to land in the correct position and restricts block movement to grid
 	* Rotating: rotate the blocks
 	* Save/Hold current block: saves the current block for later use, cycles to next block in queue
 	* Remove line: removes the line(s) that have been cleared
 	* Score counter: constantly updates the player scores, determines the winner at the end of the match
 	* Draw board: initializes the grid and game stats
-
 
 Project Breakdown:
 Anthony:
@@ -49,7 +44,7 @@ Shaeq:
 	* graphics: tetris blocks w/ various shapes, timer, score tracker, lines cleared
 	* save/hold current block function
 Brian:
-	* rotating function 
+	* rotating function
 	* score counter function
 	* working with signals and pipes
 
@@ -64,7 +59,6 @@ Data Structures:
    * char shape[][]
 * array of possible game piece shapes (ie. I, J, L)
 
-
 Timeline:
 12/8 - Decide and learn how to work with the graphics method (ncurses)
 
@@ -72,7 +66,7 @@ Timeline:
 
 12/15 - Have gravity and rotation completed. Have shared memory somewhat implemented.
 
-12/16 - Have 2 players be able to connect to the server and be able to start the game with each other 
+12/16 - Have 2 players be able to connect to the server and be able to start the game with each other
 
 12/18 - Scoring,  remove line function, border detection finished. Core functionality done and basic tetris game is now functional.
 
