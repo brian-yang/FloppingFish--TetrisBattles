@@ -1,5 +1,4 @@
-# final_project
-
+# TetrisBattles 2Player
 ## Project Members
 * Anthony Liang
 * Brian Yang
