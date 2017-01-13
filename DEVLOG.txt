@@ -1,3 +1,6 @@
 ENTRY FORMAT:
 firstL -- TIMESTAMP
 <CHANGES>
+
+brianY -- 2017-01-13 10:42AM
+- Add ncurses library
