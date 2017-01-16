@@ -1,7 +1,9 @@
 #include <unistd.h>
+#include <ncurses.h>
+#include <panel.h>
 #include "common.h"
 
-//defining board structure 
+//defining board structure
 #define BRD_TOP     ((LINES - BRD_HEIGHT)/2)
 #define BRD_LEFT    ((COLS - BRD_WIDTH)/2)
 #define BRD_HEIGHT  20
@@ -39,7 +41,7 @@ void newgame(){
 void initncurses(){
   initscr();  //Starts curses mode
   noecho();   //Don't echo while we do getch
-  cbreak();   //Disable line buffering 
+  cbreak();   //Disable line buffering
   halfdelay(5); //.5 second to receive user input
   keypad(stdscr, TRUE); //allows for extraneous keyboard key (F1,F2..)
   curs_set(false);

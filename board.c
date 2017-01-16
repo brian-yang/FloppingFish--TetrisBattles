@@ -1,5 +1,7 @@
 #include "common.h"
 
+struct piece{};
+
 //create the board structure
 static struct board{
   int height;
@@ -14,7 +16,7 @@ void initbrd(int height, int width){
   brd.height = height;
   brd.width = width;
   brd.overflow = false;
-  
+
   //creating a height x width matrix of integers and initializing them at 0
   int i,j;
   brd.grid = malloc(brd.height * sizeof(int *)); //# of rows
@@ -34,4 +36,3 @@ void freebrd(){
     free(brd.grid);
   }
 }
-  

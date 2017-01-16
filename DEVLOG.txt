@@ -4,3 +4,7 @@ firstL -- TIMESTAMP
 
 brianY -- 2017-01-13 10:42AM
 - Add ncurses library
+
+brianY -- 2017-01-16 3:05PM
+- Fix compilation errors
+- Add to makefile
