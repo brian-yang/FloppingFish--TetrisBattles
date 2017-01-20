@@ -3,10 +3,12 @@
 
 #define MESSAGE_BUFFER_SIZE 1000
 
+#include "connection.h"
+
 void error_check( int i, char *s );
 
 int server_setup();
-int server_connect(int sd);
+struct connection_info* server_connect(int sd);
 
 int client_connect( char *host );
 

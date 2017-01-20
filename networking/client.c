@@ -27,8 +27,9 @@ int main( int argc, char *argv[] ) {
     char *p = strchr(buffer, '\n');
     *p = 0;
   
-    write( sd, buffer, sizeof(buffer) );
-    read( sd, buffer, sizeof(buffer) );
+    write( sd, buffer, strlen(buffer) );
+    read( sd, buffer, strlen(buffer) );
+    buffer[strlen(buffer)] = '\0';
     printf( "received: %s\n", buffer );
   }
   

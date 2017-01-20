@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include "connection.h"  
 
 void error_check( int i, char *s ) {
   if ( i < 0 ) {
@@ -35,26 +36,26 @@ int server_setup() {
   return sd;
 }
 
-long* server_connect(int sd) {
+struct connection_info* server_connect(int sd) {
   int connection, i;
 
   i = listen(sd, 1);
   error_check( i, "server listen" );
-  
+
   struct sockaddr_in sock1;
   unsigned int sock1_len = sizeof(sock1);
   connection = accept( sd, (struct sockaddr *)&sock1, &sock1_len );
   error_check( connection, "server accept" );
   
-  printf("[server] connected to %s\n", inet_ntoa( sock1.sin_addr ) );
+  struct connection_info* data = (struct connection_info*) malloc(sizeof(struct connection_info) + 20);
+  data->fd = connection;
+  data->ip = inet_ntoa(sock1.sin_addr);
+
+  printf("[server] connected to %s\n", data->ip);
+  printf("[server] connected to %s\n", data->ip);
   
-  long connection_info[2];
-  connection_info[0] = connection;
-  connection_info[1] = sock1.sin_addr.s_addr;
-
-  return connection_info;
+  return data;
 }
-
 
 int client_connect( char *host ) {
   int sd, i;

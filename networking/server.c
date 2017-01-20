@@ -11,29 +11,31 @@ void sub_server( int sd );
 int main() {
 
   int sd;
-  long connection_info[2];
+  struct connection_info* c;
 
   sd = server_setup();
     
   while (1) {
 
-    connection_info = server_connect( sd );
+    c = server_connect( sd );
     
     int f = fork();
     if ( f == 0 ) {
 
       close(sd);
-      char buffer[MESSAGE_BUFFER_SIZE];
-      
-      
-      //write((int) connection_info[0], connection...;
-      //sub_server( connection );
 
-      printf("ok!");
+      char buffer[MESSAGE_BUFFER_SIZE];
+
+      strncpy(buffer, c->ip, strlen(c->ip) + 1);
+      write(c->fd, buffer, strlen(buffer));
+
+      //sub_server( connection );
+      
+      free(c);
       exit(0);
     }
     else {
-      close( connection );
+      close(c->fd );
     }
   }
   return 0;
