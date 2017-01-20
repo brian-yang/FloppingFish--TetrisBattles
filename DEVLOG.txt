@@ -14,3 +14,6 @@ brianY -- 2017-01-19 1:11 PM
 
 brianY -- 2017-01-20 2:06PM
 - Work on networking server
+
+brianY -- 2017-01-20 3:42 PM
+- Allow client to get IP
