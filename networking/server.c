@@ -27,7 +27,7 @@ int main() {
       char buffer[MESSAGE_BUFFER_SIZE];
 
       strncpy(buffer, c->ip, strlen(c->ip) + 1);
-      write(c->fd, buffer, strlen(buffer));
+      write(c->fd, buffer, strlen(buffer) + 1);
 
       //sub_server( connection );
       
@@ -48,7 +48,7 @@ void sub_server( int sd ) {
 
     printf("[SERVER %d] received: %s\n", getpid(), buffer );
     process( buffer );
-    write( sd, buffer, sizeof(buffer));    
+    write( sd, buffer, strlen(buffer) + 1);    
   }
   
 }
