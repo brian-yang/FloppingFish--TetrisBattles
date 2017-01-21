@@ -61,7 +61,7 @@ void draw_board(WINDOW *brd_win){
   }
   
   //draw the current piece
-  drawpc(board.pc, brd_win, board.pc.tet->color);
+  drawpc(board.pc, brd_win, board.pc.tet->color, 1);
 }
 
 static void lockpc_map(struct piece pc, struct point pt, void *auxdata){

@@ -21,7 +21,7 @@ struct piece newpc(){
 struct drawpc_args { 
   WINDOW *win; 
   int color; 
-  //int pad; 
+  int pad; 
 };
 
 void mappc(struct piece pc, mappc_fn fn, void *auxdata){
@@ -37,12 +37,12 @@ void mappc(struct piece pc, mappc_fn fn, void *auxdata){
 static void drawpc_map(struct piece pc, struct point pt, void *auxdata){
   struct drawpc_args *args = (struct drawpc_args *) auxdata;
   int ch = ' ' | COLOR_PAIR(args->color);
-  mvwaddch(args->win, pt.y, pt.x, ch);
+  mvwaddch(args->win, pt.y + args->pad, pt.x + args->pad, ch);
 }
 
 
-void drawpc(struct piece pc, WINDOW *win, int color){
-  struct drawpc_args args = { win, color};
+void drawpc(struct piece pc, WINDOW *win, int color, int pad){
+  struct drawpc_args args = { win, color, pad};
   mappc(pc, drawpc_map, &args);
 }
 

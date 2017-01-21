@@ -10,7 +10,6 @@
 static struct {
   int score;
   WINDOW *board;
-  PANEL *board_pan;
 } game;
 
 void new_game(){
@@ -51,12 +50,9 @@ void init_ncurses() {
 int main(){
   init_ncurses();
   game.board = newwin(BRD_HEIGHT + PAD,BRD_WIDTH + PAD,BRD_TOP,BRD_LEFT);
-  game.board_pan = new_panel(game.board);
   new_game();
   while(1){
     draw_board(game.board);
-    update_panels();
-    doupdate();
   }
   return 0;
 }

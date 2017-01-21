@@ -24,6 +24,6 @@ typedef void (*mappc_fn)(struct piece pc, struct point pt, void *auxdata);
 
 void mappc(struct piece pc, mappc_fn fn, void *auxdata);
 
-void drawpc(struct piece pc, WINDOW *board, int color);
+void drawpc(struct piece pc, WINDOW *board, int color, int pad);
 
 #endif
