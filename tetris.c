@@ -1,24 +1,37 @@
 #include <unistd.h>
 #include "common.h"
 
-#define BRD_TOP    ((LINES - BRD_HEIGHT)/2)
-#define BRD_LEFT   ((COLS - BRD_WIDTH)/2)  
-#define BRD_HEIGHT 20
-#define BRD_WIDTH  10
-#define PAD        2
+#define TOP_BOUND   ((LINES - BRD_HEIGHT)/2)
+#define LEFT_BOUND  ((COLS - BRD_WIDTH)/2)  
+#define BRD_HEIGHT  28
+#define BRD_WIDTH   26
+#define HOLD_HEIGHT 3 
+#define HOLD_WIDTH  6
+#define INFO_HEIGHT 17
+#define INFO_WIDTH  25
+#define PAD         2
+
+//bigger game 
+#define COLS_PER_CELL 2
  
 static struct {
   int score;
   WINDOW *board;
-  PANEL *board_pan;
+  WINDOW *hold;
+  WINDOW *info;
+  PANEL *board_p;
+  PANEL *hold_p;
+  PANEL *info_p;
 } game;
 
 void new_game(){
   game.score = 0;
   free_board();
   init_board(BRD_HEIGHT, BRD_WIDTH);
+  //clear windows for refresh
   wclear(stdscr);
   wclear(game.board);
+  wclear(game.hold);
 }
 
 void init_ncurses() {
@@ -50,11 +63,15 @@ void init_ncurses() {
 
 int main(){
   init_ncurses();
-  game.board = newwin(BRD_HEIGHT + PAD,BRD_WIDTH + PAD,BRD_TOP,BRD_LEFT);
-  game.board_pan = new_panel(game.board);
+  game.board = newwin(BRD_HEIGHT + PAD,BRD_WIDTH + PAD,TOP_BOUND,LEFT_BOUND);
+  game.hold = newwin(HOLD_HEIGHT + PAD,HOLD_WIDTH + PAD,TOP_BOUND,LEFT_BOUND + BRD_WIDTH + 2);
+  game.info = newwin(INFO_HEIGHT + PAD,INFO_WIDTH + PAD,TOP_BOUND + HOLD_HEIGHT + 2,LEFT_BOUND + BRD_WIDTH + 2);
+  game.board_p = new_panel(game.board);
+  game.hold_p = new_panel(game.hold);
+  game.info_p = new_panel(game.info);
   new_game();
   while(1){
-    draw_board(game.board);
+    draw_board(game.board,game.hold);
     update_panels();
     doupdate();
   }

@@ -3,7 +3,7 @@
 
 void init_board(int height, int width);
 
-void draw_board(WINDOW *board, WINDOW *hold);
+void draw_board(WINDOW *board);
 
 void free_board(); 
 

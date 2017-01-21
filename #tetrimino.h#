@@ -14,21 +14,23 @@ struct point {
   int y;
 };
 
-//contains general info about a tetrimino - color, 
+//tetrimino information - color, rotations 
 struct tetrimino {
   enum colors color;
-  int rotcount;
   struct point rotations[4][4];
 };
 
+//piece information - tet type, location, current orientation
 struct piece {
   struct tetrimino *tet;
   struct point pos;
   int rotid;
 };
 
+//create a new piece
 struct piece newpc();
 
+//
 typedef void (*mappc_fn)(struct piece pc, struct point pt, void *auxdata);
 
 void mappc(struct piece pc, mappc_fn fn, void *auxdata);
