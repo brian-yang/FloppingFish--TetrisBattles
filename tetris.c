@@ -29,6 +29,7 @@ void init_ncurses() {
   srand(time(NULL));
   if (has_colors()) { //if terminal supports color
     start_color();
+    //initialize color pairs
     init_pair(WHITE, COLOR_WHITE, COLOR_WHITE);
     init_pair(BLACK, COLOR_BLACK, COLOR_WHITE);
     init_pair(RED, COLOR_RED, COLOR_RED);
@@ -48,7 +49,8 @@ void init_ncurses() {
 int main(){
   init_ncurses();
   game.board = newwin(BRD_HEIGHT,BRD_WIDTH,BRD_TOP,BRD_LEFT);
-  while(getch()){
+  new_game();
+  while(1){
     draw_board(game.board);
   }
   return 0;

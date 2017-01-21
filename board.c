@@ -9,11 +9,23 @@ static struct board {
   struct piece holdpc;
 } board;
 
+
+// Cycle the current and next piece and check if the board is topped.                      
+void cyclepcs(bool holdset){
+  board.pc = (holdset ? board.holdpc : newpc());
+  board.holdpc = newpc();
+  board.pc.pos.y = board.height/2;
+  board.pc.pos.x = board.width/2;
+  board.holdpc.pos.y = 0;
+  board.holdpc.pos.x = 2;
+}
+
 void init_board(int height, int width){
   board.height = height;
   board.width = width;
+  cyclepcs(false);
   board.topped = false;
-
+  
   //creating a height x width matrix of integers and initializing them at 0
   int i,j;
   board.grid = malloc(board.height * sizeof(int *)); //# of rows
@@ -50,16 +62,6 @@ void draw_board(WINDOW *brd_win){
   
   //draw the current piece
   drawpc(board.pc, brd_win, board.pc.tet->color);
-}
-
-// Cycle the current and next piece and check if the board is topped.                      
-void cyclepcs(bool holdset){
-  board.pc = (holdset ? board.holdpc : newpc());
-  board.holdpc = newpc();
-  board.pc.pos.y = board.height/2;
-  board.pc.pos.x = board.width/2;
-  board.holdpc.pos.y = 0;
-  board.holdpc.pos.x = 2;
 }
 
 static void lockpc_map(struct piece pc, struct point pt, void *auxdata){
