@@ -11,5 +11,4 @@ $(EXEC): $(SRC)
 	$(CC) $^ $(CFLAGS) -o $@
 
 clean:
-	rm *~
 	rm $(EXEC)

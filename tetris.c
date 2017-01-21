@@ -1,27 +1,25 @@
 #include <unistd.h>
 #include <ncurses.h>
 
-#define W_HEIGHT 20
-#define W_WIDTH  10
+#define BRD_TOP    ((LINES - BRD_HEIGHT)/2)
+#define BRD_LEFT   ((COLS - BRD_WIDTH)/2)  
+#define BRD_HEIGHT 20
+#define BRD_WIDTH  10
 
-typedef struct {
-  int x;
-  int y;
-} point;
+static struct {
+  int score;
+  WINDOW *board;
+} game;
 
-struct piece {
-  struct tetrimino *tet;
-  struct point pos;
-};
-
-struct piece newpc(){
-  struct piece pc;
-  pc.pos.x = 0;
-  pc.pos.y = 0;
-  return pc;
+void new_game(){
+  game.score = 0;
+  free_board();
+  init_board(BRD_HEIGHT, BRD_WIDTH);
+  wclear(stdscr);
+  wclear(game.board);
 }
-  
-void initcurses() {
+
+void init_ncurses() {
   initscr(); //start curses mode
   noecho(); //don't echo keypresses
   cbreak();
@@ -29,54 +27,21 @@ void initcurses() {
   curs_set(false); //don't display cursor
   keypad(stdscr, true);
   srand(time(NULL));
+  if (has_colors()) { //if terminal supports color
+    start_color();
+    init_pair(GREEN, COLOR_GREEN, COLOR_GREEN);
+  } else {
+    fprintf(stderr, "[Error] Terminal does not support colors. \n");
+    endwin();
+    exit(1);
+  }
 }
-
-WINDOW *create_board(int height, int width, int starty, int startx){
-  WINDOW *board;
-  board = newwin(height, width, starty, startx);
-  box(board, 0, 0);
-  wrefresh(board);
-  return board;
-}
-
-void draw_piece(struct piece pc, WINDOW *win, int color){
-  int ch = ' ';
-  mvwaddch(win, pc.pos.y, pc.pos.x, ch);
-  start_color();
-  init_pair(1,COLOR_GREEN,COLOR_GREEN);
-  wattron(win, COLOR_PAIR(1)); 
-  mvwprintw(win,0,30,"xx"); 
-}
-
-void drawboard(WINDOW *brd){
-  wclear(brd);
-  box(brd, false, false);
-}
-
-/*void init_board(WINDOW *boardint height, int width){
-  board.height = height;
-  board.width = width;
-  }*/
-  
 
 int main(){
-  WINDOW *board;
-  int startx, starty;
-  
-  pt->x = 3;
-  pt->y = 4;
-  struct piece pc;
-  piece->pos = pt;
-  initcurses();
-  starty = (LINES - W_HEIGHT)/2;
-  startx = (COLS - W_WIDTH)/2 ;
-  
-  board = create_board(W_HEIGHT, W_WIDTH, starty, startx);  
-  draw_piece(pc,board,COLOR_RED);
-  getch();
-  while(1){
-    wrefresh(board);
-  };
-  endwin();
+  init_ncurses();
+  game.board = newwin(BRD_HEIGHT,BRD_WIDTH,BRD_TOP,BRD_LEFT);
+  while(route(getch())){
+    draw_board(game.board);
+  }
   return 0;
 }

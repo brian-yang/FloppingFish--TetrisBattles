@@ -13,4 +13,7 @@ enum colors {
     WHITE = 1, BLACK, RED, GREEN, BLUE, CYAN, YELLOW, MAGENTA, ORANGE
 };
 
+#include "tetrimino.h"
+#include "board.h"
+
 #endif
