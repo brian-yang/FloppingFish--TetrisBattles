@@ -48,7 +48,7 @@ void init_ncurses() {
 int main(){
   init_ncurses();
   game.board = newwin(BRD_HEIGHT,BRD_WIDTH,BRD_TOP,BRD_LEFT);
-  while(getch()){
+  while(1){
     draw_board(game.board);
   }
   return 0;

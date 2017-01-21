@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -lpanel -lncurses
+CFLAGS = -Wall -lpanel -lncurses
 LDFLAGS = -lpanel -lncurses
 
 SRC = tetris.c board.c tetrimino.c
