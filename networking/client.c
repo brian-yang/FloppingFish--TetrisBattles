@@ -14,32 +14,26 @@ int main( int argc, char *argv[] ) {
   }
   else
     host = argv[1];
-  
+
   int sd;
 
   sd = client_connect( host );
 
   char buffer[MESSAGE_BUFFER_SIZE];
-  
+
   while (1) {
     printf("enter message: ");
 
     fgets( buffer, sizeof(buffer), stdin );
 
-    printf("test1");
-
     char *p = strchr(buffer, '\n');
     *p = '\0';
 
-    printf("test2");
-  
-    write( sd, buffer, strlen(buffer));
-
-    printf("test3");
+    write( sd, buffer, strlen(buffer) + 1);
 
     read( sd, buffer, sizeof(buffer) );
     printf( "received: %s\n", buffer );
   }
-  
+
   return 0;
 }

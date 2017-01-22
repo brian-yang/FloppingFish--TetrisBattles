@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include "connection.h"  
+#include "connection.h"
 
 void error_check( int i, char *s ) {
   if ( i < 0 ) {
@@ -19,20 +19,20 @@ void error_check( int i, char *s ) {
 }
 
 int server_setup() {
-  
+
   int sd;
   int i;
-  
+
   sd = socket( AF_INET, SOCK_STREAM, 0 );
   error_check( sd, "server socket" );
-  
+
   struct sockaddr_in sock;
   sock.sin_family = AF_INET;
   sock.sin_addr.s_addr = INADDR_ANY;
   sock.sin_port = htons(9001);
   i = bind( sd, (struct sockaddr *)&sock, sizeof(sock) );
   error_check( i, "server bind" );
-  
+
   return sd;
 }
 
@@ -46,31 +46,29 @@ struct connection_info* server_connect(int sd) {
   unsigned int sock1_len = sizeof(sock1);
   connection = accept( sd, (struct sockaddr *)&sock1, &sock1_len );
   error_check( connection, "server accept" );
-  
-  struct connection_info* data = (struct connection_info*) malloc(sizeof(struct connection_info) + 20);
-  data->fd = connection;
-  data->ip = inet_ntoa(sock1.sin_addr);
 
-  printf("[server] connected to %s\n", data->ip);
-  printf("[server] connected to %s\n", data->ip);
-  
+  struct connection_info* data = (struct connection_info*) malloc(sizeof(struct connection_info));
+  data->fd = connection;
+
+  printf("[server] connected to %s\n", inet_ntoa(sock1.sin_addr));
+
   return data;
 }
 
 int client_connect( char *host ) {
   int sd, i;
-  
+
   sd = socket( AF_INET, SOCK_STREAM, 0 );
   error_check( sd, "client socket" );
-  
+
   struct sockaddr_in sock;
   sock.sin_family = AF_INET;
   inet_aton( host, &(sock.sin_addr));
   sock.sin_port = htons(9001);
-  
+
   printf("[client] connecting to: %s\n", host );
   i = connect( sd, (struct sockaddr *)&sock, sizeof(sock) );
   error_check( i, "client connect");
-  
+
   return sd;
 }

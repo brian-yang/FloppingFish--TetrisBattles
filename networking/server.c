@@ -10,16 +10,18 @@
 
 #include "networking.h"
 
-void process( char * s );
-void sub_server( int sd );
+#define NUM_USERS 10
 
-union semun {
-  int val; /* Value for SETVAL */
-  struct semid_ds *buf; /* Buffer for IPC_STAT, IPC_SET */
-  unsigned short *array; /* Array for GETALL, SETALL */
-  struct seminfo *__buf; /* Buffer for IPC_INFO
-			    (Linux specific) */
-};
+void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer);
+void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer);
+
+/* union semun { */
+/*   int val; /\* Value for SETVAL *\/ */
+/*   struct semid_ds *buf; /\* Buffer for IPC_STAT, IPC_SET *\/ */
+/*   unsigned short *array; /\* Array for GETALL, SETALL *\/ */
+/*   struct seminfo *__buf; /\* Buffer for IPC_INFO */
+/* 			    (Linux specific) *\/ */
+/* }; */
 
 /* key_t get_semaphore() { */
 /*   key_t sem = ftok("/usr", 30); */
@@ -55,9 +57,6 @@ int main() {
   int pipes_in_use = pipes[0];
   int waiting_room_pipes[2] = {-1, -1};
 
-  fd = open("waitingroom.log", O_TRUNC | O_CREAT, 0644);
-  close(fd);
-
   //===============================================================
   //===============================================================
 
@@ -76,21 +75,22 @@ int main() {
 
       close(pipes_in_use - 1);
       char buffer[MESSAGE_BUFFER_SIZE];
-      printf("ok2!\n");
-      printf("%d\n", pipes_in_use - 2);
       read(pipes_in_use - 2, buffer, 1024);
 
-      printf("testing! %s\n", buffer);
+      char* pointer_buffer = buffer;
+
+      int pipe_ids[2];
+      pipe_ids[0] = atoi(strsep(&pointer_buffer, "-"));
+      pipe_ids[1] = atoi(pointer_buffer);
+
+      char buffer2[MESSAGE_BUFFER_SIZE];
+      if (pipe_ids[0] < pipes_in_use - 2) {
+	sub_server1(c->fd, pipes_in_use - 2, pipe_ids[1], buffer2);
+      } else{
+	sub_server2(c->fd, pipes_in_use - 2, pipe_ids[1], buffer2);
+      }
+
       close(pipes_in_use - 2);
-
-      fd = open("waitingroom.log", O_WRONLY | O_APPEND);
-      write(fd, buffer, strlen(buffer));
-      close(fd);
-
-      /* strncpy(buffer, c->ip, strlen(c->ip) + 1); */
-      /* write(c->fd, buffer, strlen(buffer) + 1); */
-
-      //sub_server( c->fd );
 
       free(c);
       exit(0);
@@ -105,16 +105,11 @@ int main() {
 	char pipe_ids2[1024];
 
 	sprintf(pipe_ids, "%d-%d\n", pipes_in_use - 2, pipes_in_use - 1);
-	printf("ok!\n");
-	write(waiting_room_pipes[1], pipe_ids, strlen(pipe_ids));
-	printf("ok3!\n");
+	write(waiting_room_pipes[1], pipe_ids, strlen(pipe_ids) + 1);
 	close(waiting_room_pipes[1]);
 
-	printf("ok5!\n");
 	sprintf(pipe_ids2, "%d-%d\n", waiting_room_pipes[0], waiting_room_pipes[1]);
-	printf("ok6!\n");
-	write(pipes_in_use - 1, pipe_ids2, strlen(pipe_ids2));
-	printf("ok7!\n");
+	write(pipes_in_use - 1, pipe_ids2, strlen(pipe_ids2) + 1);
 
 	waiting_room_pipes[0] = -1;
 	waiting_room_pipes[1] = -1;
@@ -127,21 +122,28 @@ int main() {
   return 0;
 }
 
-void sub_server( int sd ) {
-
-  char buffer[MESSAGE_BUFFER_SIZE];
-  while (read( sd, buffer, sizeof(buffer) )) {
-
-    printf("[SERVER %d] received: %s\n", getpid(), buffer );
-    process( buffer );
-    write( sd, buffer, strlen(buffer) + 1);
+void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer) {
+  read(connection, buffer, sizeof(buffer));
+  while (1) {
+    write( write_pipe, buffer, strlen(buffer) + 1 );
+    read(read_pipe, buffer, sizeof(buffer));
+    write(connection, buffer, strlen(buffer) + 1);
+    read(connection, buffer, sizeof(buffer));
   }
-
+  close(connection);
+  close(read_pipe);
+  close(write_pipe);
 }
-void process( char * s ) {
 
-  while ( *s ) {
-    *s = (*s - 'a' + 13) % 26 + 'a';
-    s++;
+void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer) {
+  read(connection, buffer, sizeof(buffer));
+  while (1) {
+    write( write_pipe, buffer, strlen(buffer) + 1 );
+    read(read_pipe, buffer, sizeof(buffer));
+    write(connection, buffer, strlen(buffer) + 1);
+    read(connection, buffer, sizeof(buffer));
   }
+  close(connection);
+  close(read_pipe);
+  close(write_pipe);
 }
