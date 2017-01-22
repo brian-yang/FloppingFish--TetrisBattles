@@ -4,15 +4,22 @@
 */
 #define ADD_piece(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
   waddch((w),' '|A_REVERSE|COLOR_PAIR(x))
-#define ADD_EMPTY(w) waddch((w), ' '|A_REVERSE|COLOR_PAIR(8)); waddch((w), ' '|A_REVERSE|COLOR_PAIR(8))
+#define ADD_EMPTY(w) wattron(w,COLOR_BLACK); waddch((w), ' '); waddch((w), ' '); wattroff(w,COLOR_BLACK); 
 
 /*
   Print the tetris board
 */
 void display_board(WINDOW *w, game *obj)
 {
-  int i, j;
-  box(w, 0, 0);
+int i, j;
+init_pair(16, COLOR_WHITE,   COLOR_BLACK);
+wattron(w,COLOR_PAIR(16));
+box(w,0,0);
+wattroff(w,COLOR_PAIR(16));
+for (i = 0; i < obj->rows ; i++) {
+    wattron(w,COLOR_BLACK); mvwaddch(w,0,i, ' ');
+    wattroff(w,COLOR_BLACK);
+  }
   for (i = 0; i < obj->rows; i++) {
     wmove(w, 1 + i, 1);
     for (j = 0; j < obj->cols; j++) {
@@ -52,9 +59,19 @@ void display_piece(WINDOW *w, piece piece)
 */
 void display_score(WINDOW *w, game *ff)
 {
-  wclear(w);
-  box(w, 0, 0);
-  wprintw(w, "Score\n%d\n", ff->points);
+ wclear(w);
+  init_pair(16, COLOR_BLACK, COLOR_BLACK);
+  //box(w, 0, 0);
+  wattron(w,COLOR_PAIR(5)); 
+  mvwprintw(w, 2,1, "        \n" /*,tg->points*/);
+  mvwprintw(w, 3,1, "  Score \n" /*,tg->points*/);
+  mvwprintw(w, 4,1, "    %d  \n", ff->points);
+  mvwprintw(w, 4,8, " ");
+  mvwprintw(w, 5,1, "        \n" /*,tg->points*/);
+  wattron(w,COLOR_PAIR(16));
+  //mvwprintw(w, 4,9, " "); 
+  wattroff(w,COLOR_PAIR(16));
+    
   wnoutrefresh(w);
 }
 
@@ -102,9 +119,10 @@ int main(int argc, char **argv)
   startx = (COLS - width) / 2;
   // Create windows for each section of the interface.
   board = newwin(ff->rows + 2, 2 * ff->cols + 2, starty, startx);
-  next  = newwin(6, 10, starty+0, startx+(2 * (ff->cols + 1) + 1));
-  hold  = newwin(6, 10, starty+7, startx+(2 * (ff->cols + 1) + 1));
-  score = newwin(6, 10, starty+14, startx+(2 * (ff->cols + 1 ) + 1));
+  next  = newwin(6, 10, starty+2, startx+(2 * (ff->cols + 1) + 1));
+  hold  = newwin(6, 10, starty+9, startx+(2 * (ff->cols + 1) + 1));
+  score = newwin(6, 10, starty+16, startx+(2 * (ff->cols + 1 ) ));
+
 
   // Game loop
   while (running) {
