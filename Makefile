@@ -1,15 +1,16 @@
-CC = gcc
 CFLAGS = -Wall -lpanel -lncurses
-LDFLAGS = -lpanel -lncurses
-BUGFLAGS = -g
+NCURSES_FLAGS = -lpanel -lncurses
+GDB_FLAG = -g
 
 SRC = tetris.c main.c
 EXEC = tetris
 
-all: $(EXEC)
+all: compile
 
-$(EXEC): $(SRC)
-	$(CC) $^ $(CFLAGS) -o $@
-
+compile: $(SRC)
+	gcc $^ $(CFLAGS) -o $(EXEC)
+run:
+	./$(EXEC)
 clean:
-	rm $(EXEC)
+	rm -f $(EXEC)
+	rm -f *~ *.out

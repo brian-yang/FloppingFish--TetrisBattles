@@ -25,7 +25,7 @@ void display_board(WINDOW *w, tetris_game *obj)
         ADD_BLOCK(w,tg_get(obj, i, j));
       } else {
         ADD_EMPTY(w);
-      }      
+      }
     }
   }
   wnoutrefresh(w);
@@ -117,7 +117,8 @@ int main(int argc, char **argv)
     display_piece(next, tg->next);
     display_piece(hold, tg->stored);
     display_score(score, tg);
-    doupdate();
+    /* doupdate(); */
+    refresh();
     switch(getch()){
     case KEY_LEFT:
       tg_move(tg, -1);
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
     case KEY_UP:
       tg_rotate(tg, 1);
       break;
-    case KEY_DOWN: 
+    case KEY_DOWN:
       break;
     case 'q':
 	running = false;
@@ -141,15 +142,15 @@ int main(int argc, char **argv)
     }
         sleep_milli(7);
   }
-  
-  
+
+
   // Deinitialize NCurses
   wclear(stdscr);
   endwin();
-  
+
   // Output ending message.
   printf("Game over!\n");
-  
+
   // Deinitialize Tetris
   tg_delete(tg);
   return 0;
