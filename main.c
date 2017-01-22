@@ -9,7 +9,7 @@
 */
 #define ADD_BLOCK(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
   waddch((w),' '|A_REVERSE|COLOR_PAIR(x))
-#define ADD_EMPTY(w) waddch((w), ' '); waddch((w), ' ')
+#define ADD_EMPTY(w) waddch((w), ' '|A_REVERSE|COLOR_PAIR(8)); waddch((w), ' '|A_REVERSE|COLOR_PAIR(8))
 
 /*
   Print the tetris board onto the ncurses window.
@@ -69,6 +69,8 @@ void display_score(WINDOW *w, tetris_game *tg)
 void init_colors(void)
 {
   start_color();
+use_default_colors();
+
   init_pair(TC_CELLI, COLOR_CYAN, COLOR_BLACK);
   init_pair(TC_CELLJ, COLOR_BLUE, COLOR_BLACK);
   init_pair(TC_CELLL, COLOR_WHITE, COLOR_BLACK);
@@ -85,9 +87,9 @@ int main(int argc, char **argv)
 {
   tetris_game *tg;
   bool running = true;
+
   WINDOW *board, *next, *hold, *score;
   tg = tg_create(22, 10);
-  
   // NCURSES initialization:
   initscr();             // initialize curses
   cbreak();              // pass key presses to program, but not signals
@@ -96,12 +98,17 @@ int main(int argc, char **argv)
   timeout(0);            // no blocking on getch()
   curs_set(0);           // set the cursor to invisible
   init_colors();         // setup tetris colors
-
+  bkgdset(COLOR_PAIR(4));
+  int startx, starty, width, height;
+  height = 22;
+  width = 30;
+  starty = (LINES - height) / 2;  /* Calculating for a center placement */
+  startx = (COLS - width) / 2;  /* of the window    */
   // Create windows for each section of the interface.
-  board = newwin(tg->rows + 2, 2 * tg->cols + 2, 0, 0);
-  next  = newwin(6, 10, 0, 2 * (tg->cols + 1) + 1);
-  hold  = newwin(6, 10, 7, 2 * (tg->cols + 1) + 1);
-  score = newwin(6, 10, 14, 2 * (tg->cols + 1 ) + 1);
+  board = newwin(tg->rows + 2, 2 * tg->cols + 2, starty, startx);
+  next  = newwin(6, 10, starty+0, startx+(2 * (tg->cols + 1) + 1));
+  hold  = newwin(6, 10, starty+7, startx+(2 * (tg->cols + 1) + 1));
+  score = newwin(6, 10, starty+14, startx+(2 * (tg->cols + 1 ) + 1));
 
   // Game loop
   while (running) {
@@ -111,7 +118,6 @@ int main(int argc, char **argv)
     display_piece(hold, tg->stored);
     display_score(score, tg);
     doupdate();
-    sleep_milli(10);
     switch(getch()){
     case KEY_LEFT:
       tg_move(tg, -1);
@@ -122,7 +128,7 @@ int main(int argc, char **argv)
     case KEY_UP:
       tg_rotate(tg, 1);
       break;
-    case KEY_DOWN:
+    case KEY_DOWN: 
       break;
     case 'q':
 	running = false;
@@ -133,6 +139,7 @@ int main(int argc, char **argv)
     default:
       break;
     }
+        sleep_milli(7);
   }
   
   
