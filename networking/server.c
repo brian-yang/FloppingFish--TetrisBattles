@@ -43,10 +43,8 @@ void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer);
 
 int main() {
   int sd; // initial file descriptor for connection between server and client
-  struct connection_info* c; // used to store connection info from clients
   int pipes[2 * NUM_USERS]; // pipes for communicating between server and subprocesses
-
-  int fd;
+  int c; // server-client connection
 
   // Pipe setup
   int i;
@@ -85,14 +83,13 @@ int main() {
 
       char buffer2[MESSAGE_BUFFER_SIZE];
       if (pipe_ids[0] < pipes_in_use - 2) {
-	sub_server1(c->fd, pipes_in_use - 2, pipe_ids[1], buffer2);
+	sub_server1(c, pipes_in_use - 2, pipe_ids[1], buffer2);
       } else{
-	sub_server2(c->fd, pipes_in_use - 2, pipe_ids[1], buffer2);
+	sub_server2(c, pipes_in_use - 2, pipe_ids[1], buffer2);
       }
 
       close(pipes_in_use - 2);
 
-      free(c);
       exit(0);
     }
     else {
@@ -114,9 +111,7 @@ int main() {
 	waiting_room_pipes[0] = -1;
 	waiting_room_pipes[1] = -1;
       }
-
-      close(c->fd);
-      free(c);
+      close(c);
     }
   }
   return 0;

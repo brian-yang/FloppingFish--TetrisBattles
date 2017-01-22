@@ -27,7 +27,7 @@ void display_board(WINDOW *w, game *obj)
 }
 
 /*
-  Display a tetris piece 
+  Display a tetris piece
 */
 void display_piece(WINDOW *w, piece piece)
 {
@@ -94,12 +94,12 @@ int main(int argc, char **argv)
   curs_set(0);           // set the cursor to invisible
   init_colors();         // setup tetris colors
   bkgdset(COLOR_PAIR(4));
-  
+
   int startx, starty, width, height;
   height = 22;
   width = 30;
   starty = (LINES - height) / 2;  /* Calculating for a center placement */
-  startx = (COLS - width) / 2;  
+  startx = (COLS - width) / 2;
   // Create windows for each section of the interface.
   board = newwin(ff->rows + 2, 2 * ff->cols + 2, starty, startx);
   next  = newwin(6, 10, starty+0, startx+(2 * (ff->cols + 1) + 1));
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     /* doupdate(); */
     refresh();
 
-    //case handling 
+    //case handling
     switch(getch()){
     case KEY_LEFT:
       ff_move(ff, -1);
