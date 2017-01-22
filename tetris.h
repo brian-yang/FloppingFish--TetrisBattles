@@ -31,7 +31,7 @@
 typedef struct {
   int row;
   int col;
-} tetris_location;
+} pos;
 
 /*
   Block information - type, orientaiton, location
@@ -39,7 +39,7 @@ typedef struct {
 typedef struct {
   int typ;
   int ori;
-  tetris_location loc;
+  pos loc;
 } tetris_block;
 
 /*
@@ -75,7 +75,7 @@ typedef enum {
 /*
   Array storing tetromino information - type, orientation, and mapping arrays
  */
-extern tetris_location TETROMINOS[NUM_TETROMINOS][NUM_ORIENTATIONS][TETRIS];
+extern pos TETROMINOS[NUM_TETROMINOS][NUM_ORIENTATIONS][TETRIS];
 
 // Data structure manipulation.
 void tg_move(tetris_game *obj, int direction);

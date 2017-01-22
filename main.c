@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <time.h>
-#include <ncurses.h>
-#include <string.h>
-
-#include "tetris.h"
+#include "common.h"
 
 /*
   2 columns per cell makes the game much nicer.
@@ -44,7 +37,7 @@ void display_board(WINDOW *w, tetris_game *obj)
 void display_piece(WINDOW *w, tetris_block block)
 {
   int b;
-  tetris_location c;
+  pos c;
   wclear(w);
   box(w, 0, 0);
   if (block.typ == -1) {

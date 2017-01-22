@@ -5,15 +5,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <ncurses.h>
-#include <panel.h>
+#include <string.h>
 #include <time.h>
-#include <sys/time.h>
+#include <stdbool.h>
 
-enum colors {
-    WHITE = 1, BLACK, RED, GREEN, BLUE, CYAN, YELLOW, MAGENTA, ORANGE
-};
-
-#include "tetrimino.h"
-#include "board.h"
+#include "tetris.h"
 
 #endif
