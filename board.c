@@ -51,7 +51,8 @@ void draw_board(WINDOW *board, WINDOW *hold){
   wclear(hold);
   box(board, false, false);
   box(hold, false, false);
-  // draw locked pieces
+ 
+  //draw locked pieces
   int i, j, ch;
   for (i = 0; i < brd.height; i++) {
     for (j = 0; j < brd.width; j++) {

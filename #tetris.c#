@@ -70,7 +70,7 @@ void draw_info(){
   mvwprintw(game.info, 3, 0, "Controls:");
   wattrset(game.info, A_NORMAL); //normal text
   mvwprintw(game.info, 1, 0, "%i", game.score);
-  mvwprintw(game.info, 4, 0, "Press '0' for\ncontrols");
+  mvwprintw(game.info, 4, 0, "'?' for\ncontrols");
 }
 
 int main(){

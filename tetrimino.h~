@@ -17,6 +17,7 @@ struct point {
 //contains general info about a tetrimino - color, 
 struct tetrimino {
   enum colors color;
+  int rotcount;
   struct point rotations[4][4];
 };
 
