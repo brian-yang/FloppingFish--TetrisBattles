@@ -1,28 +1,23 @@
 #include "common.h"
-
 /*
-  2 columns per cell makes the game much nicer.
+  Print out individual cells
 */
-#define COLS_PER_CELL 2
-/*
-  Macro to print a cell of a specific type to a window.
-*/
-#define ADD_BLOCK(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
+#define ADD_piece(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
   waddch((w),' '|A_REVERSE|COLOR_PAIR(x))
 #define ADD_EMPTY(w) waddch((w), ' '|A_REVERSE|COLOR_PAIR(8)); waddch((w), ' '|A_REVERSE|COLOR_PAIR(8))
 
 /*
-  Print the tetris board onto the ncurses window.
+  Print the tetris board
 */
-void display_board(WINDOW *w, tetris_game *obj)
+void display_board(WINDOW *w, game *obj)
 {
   int i, j;
   box(w, 0, 0);
   for (i = 0; i < obj->rows; i++) {
     wmove(w, 1 + i, 1);
     for (j = 0; j < obj->cols; j++) {
-      if (TC_IS_FILLED(tg_get(obj, i, j))) {
-        ADD_BLOCK(w,tg_get(obj, i, j));
+      if (IS_FILLED(ff_get(obj, i, j))) {
+        ADD_piece(w,ff_get(obj, i, j));
       } else {
         ADD_EMPTY(w);
       }
@@ -32,64 +27,64 @@ void display_board(WINDOW *w, tetris_game *obj)
 }
 
 /*
-  Display a tetris piece in a dedicated window.
+  Display a tetris piece 
 */
-void display_piece(WINDOW *w, tetris_block block)
+void display_piece(WINDOW *w, piece piece)
 {
   int b;
   pos c;
   wclear(w);
   box(w, 0, 0);
-  if (block.typ == -1) {
+  if (piece.typ == -1) {
     wnoutrefresh(w);
     return;
   }
   for (b = 0; b < TETRIS; b++) {
-    c = TETROMINOS[block.typ][block.ori][b];
+    c = TETROMINOS[piece.typ][piece.ori][b];
     wmove(w, c.row + 1, c.col * COLS_PER_CELL + 1);
-    ADD_BLOCK(w, TYPE_TO_CELL(block.typ));
+    ADD_piece(w, TYPE_TO_CELL(piece.typ));
   }
   wnoutrefresh(w);
 }
 
 /*
-  Display score information in a dedicated window.
+  Display score information
 */
-void display_score(WINDOW *w, tetris_game *tg)
+void display_score(WINDOW *w, game *ff)
 {
   wclear(w);
   box(w, 0, 0);
-  wprintw(w, "Score\n%d\n", tg->points);
+  wprintw(w, "Score\n%d\n", ff->points);
   wnoutrefresh(w);
 }
 
 /*
-  Do the NCURSES initialization steps for color blocks.
+  Ncurses initialization for color pieces
 */
 void init_colors(void)
 {
   start_color();
 use_default_colors();
 
-  init_pair(TC_CELLI, COLOR_CYAN, COLOR_BLACK);
-  init_pair(TC_CELLJ, COLOR_BLUE, COLOR_BLACK);
-  init_pair(TC_CELLL, COLOR_WHITE, COLOR_BLACK);
-  init_pair(TC_CELLO, COLOR_YELLOW, COLOR_BLACK);
-  init_pair(TC_CELLS, COLOR_GREEN, COLOR_BLACK);
-  init_pair(TC_CELLT, COLOR_MAGENTA, COLOR_BLACK);
-  init_pair(TC_CELLZ, COLOR_RED, COLOR_BLACK);
+  init_pair(I, COLOR_CYAN, COLOR_BLACK);
+  init_pair(J, COLOR_BLUE, COLOR_BLACK);
+  init_pair(L, COLOR_WHITE, COLOR_BLACK);
+  init_pair(O, COLOR_YELLOW, COLOR_BLACK);
+  init_pair(S, COLOR_GREEN, COLOR_BLACK);
+  init_pair(T, COLOR_MAGENTA, COLOR_BLACK);
+  init_pair(Z, COLOR_RED, COLOR_BLACK);
 }
 
 /*
-  Main tetris game!
+  Main tetris game! ff for FLOPPING_FISH
 */
 int main(int argc, char **argv)
 {
-  tetris_game *tg;
+  game *ff;
   bool running = true;
 
   WINDOW *board, *next, *hold, *score;
-  tg = tg_create(22, 10);
+  ff = ff_create(22, 10);
   // NCURSES initialization:
   initscr();             // initialize curses
   cbreak();              // pass key presses to program, but not signals
@@ -99,59 +94,57 @@ int main(int argc, char **argv)
   curs_set(0);           // set the cursor to invisible
   init_colors();         // setup tetris colors
   bkgdset(COLOR_PAIR(4));
+  
   int startx, starty, width, height;
   height = 22;
   width = 30;
   starty = (LINES - height) / 2;  /* Calculating for a center placement */
-  startx = (COLS - width) / 2;  /* of the window    */
+  startx = (COLS - width) / 2;  
   // Create windows for each section of the interface.
-  board = newwin(tg->rows + 2, 2 * tg->cols + 2, starty, startx);
-  next  = newwin(6, 10, starty+0, startx+(2 * (tg->cols + 1) + 1));
-  hold  = newwin(6, 10, starty+7, startx+(2 * (tg->cols + 1) + 1));
-  score = newwin(6, 10, starty+14, startx+(2 * (tg->cols + 1 ) + 1));
+  board = newwin(ff->rows + 2, 2 * ff->cols + 2, starty, startx);
+  next  = newwin(6, 10, starty+0, startx+(2 * (ff->cols + 1) + 1));
+  hold  = newwin(6, 10, starty+7, startx+(2 * (ff->cols + 1) + 1));
+  score = newwin(6, 10, starty+14, startx+(2 * (ff->cols + 1 ) + 1));
 
   // Game loop
   while (running) {
-    running = tg_tick(tg);
-    display_board(board, tg);
-    display_piece(next, tg->next);
-    display_piece(hold, tg->stored);
-    display_score(score, tg);
+    running = ff_tick(ff);
+    display_board(board, ff);
+    display_piece(next, ff->next);
+    display_piece(hold, ff->stored);
+    display_score(score, ff);
     /* doupdate(); */
     refresh();
+
+    //case handling 
     switch(getch()){
     case KEY_LEFT:
-      tg_move(tg, -1);
+      ff_move(ff, -1);
       break;
     case KEY_RIGHT:
-      tg_move(tg, 1);
+      ff_move(ff, 1);
       break;
     case KEY_UP:
-      tg_rotate(tg, 1);
+      ff_rotate(ff, 1);
       break;
     case KEY_DOWN:
       break;
     case 'q':
-	running = false;
-	break;
+	    running = false;
+	    break;
     case ' ':
-      tg_down(tg);
+      ff_down(ff);
       break;
     default:
       break;
     }
-        sleep_milli(7);
+    sleep_milli(7);
   }
 
-
-  // Deinitialize NCurses
+  //End game message and exit curses mode
   wclear(stdscr);
   endwin();
-
-  // Output ending message.
   printf("Game over!\n");
-
-  // Deinitialize Tetris
-  tg_delete(tg);
+  ff_delete(ff);
   return 0;
 }
