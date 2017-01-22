@@ -19,7 +19,7 @@ clean:
 	rm server client
 	rm *.o
 	rm *~
-valgrind-server: server
-	valgrind --leak-check=full --track-origins=yes --trace-children=yes ./server
-valgrind-client: client
-	valgrind --leak-check=full --track-origins=yes --trace-children=yes ./client
+vs: server
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes ./server
+vc: client
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes ./client

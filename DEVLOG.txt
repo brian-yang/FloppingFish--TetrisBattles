@@ -17,3 +17,6 @@ brianY -- 2017-01-20 2:06PM
 
 brianY -- 2017-01-20 3:42 PM
 - Allow client to get IP
+
+brianY -- 2017-01-22 3:14 AM
+- Allow subprocesses to get pipe ids
