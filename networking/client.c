@@ -29,10 +29,15 @@ int main( int argc, char *argv[] ) {
     char *p = strchr(buffer, '\n');
     *p = '\0';
 
-    write( sd, buffer, strlen(buffer) + 1);
+    int random_num = 5;
+    int converted_num = htonl(random_num);
 
-    read( sd, buffer, sizeof(buffer) );
-    printf( "received: %s\n", buffer );
+    write( sd, &converted_num, sizeof(converted_num) );
+
+    int received_int = 0;
+
+    read( sd, &received_int, sizeof(received_int) );
+    printf( "received: %d\n", received_int );
   }
 
   return 0;

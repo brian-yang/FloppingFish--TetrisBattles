@@ -15,32 +15,6 @@
 void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer);
 void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer);
 
-/* union semun { */
-/*   int val; /\* Value for SETVAL *\/ */
-/*   struct semid_ds *buf; /\* Buffer for IPC_STAT, IPC_SET *\/ */
-/*   unsigned short *array; /\* Array for GETALL, SETALL *\/ */
-/*   struct seminfo *__buf; /\* Buffer for IPC_INFO */
-/* 			    (Linux specific) *\/ */
-/* }; */
-
-/* key_t get_semaphore() { */
-/*   key_t sem = ftok("/usr", 30); */
-/*   if (errno) { */
-/*     printf("Ftok error #%d: %s\n", errno, strerror(errno)); */
-/*     exit(-1); */
-/*   } */
-/*   return sem; */
-/* } */
-
-/* key_t get_sharedmem() { */
-/*   key_t shm = ftok("/home", 30); */
-/*   if (errno) { */
-/*     printf("Ftok error #%d: %s\n", errno, strerror(errno)); */
-/*     exit(-1); */
-/*   } */
-/*   return shm; */
-/* } */
-
 int main() {
   int sd; // initial file descriptor for connection between server and client
   int pipes[2 * NUM_USERS]; // pipes for communicating between server and subprocesses
@@ -118,12 +92,19 @@ int main() {
 }
 
 void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer) {
-  read(connection, buffer, sizeof(buffer));
+  int read_num = 0;
+  read(connection, &read_num, sizeof(read_num));
   while (1) {
-    write( write_pipe, buffer, strlen(buffer) + 1 );
-    read(read_pipe, buffer, sizeof(buffer));
-    write(connection, buffer, strlen(buffer) + 1);
-    read(connection, buffer, sizeof(buffer));
+    write( write_pipe, &read_num, sizeof(read_num) );
+
+    int read_num2 = 0;
+    read(read_pipe, &read_num2, sizeof(read_num2));
+
+    int converted_num = htonl(read_num2);
+    write(connection, &converted_num, sizeof(converted_num));
+
+    int received_int = 0;
+    read(connection, &received_int, sizeof(received_int));
   }
   close(connection);
   close(read_pipe);
@@ -131,12 +112,19 @@ void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer) {
 }
 
 void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer) {
-  read(connection, buffer, sizeof(buffer));
+  int read_num = 0;
+  read(connection, &read_num, sizeof(read_num));
   while (1) {
-    write( write_pipe, buffer, strlen(buffer) + 1 );
-    read(read_pipe, buffer, sizeof(buffer));
-    write(connection, buffer, strlen(buffer) + 1);
-    read(connection, buffer, sizeof(buffer));
+    write( write_pipe, &read_num, sizeof(read_num) );
+
+    int read_num2 = 0;
+    read(read_pipe, &read_num2, sizeof(read_num2));
+
+    int converted_num = htonl(read_num2);
+    write(connection, &converted_num, sizeof(converted_num));
+
+    int received_int = 0;
+    read(connection, &received_int, sizeof(received_int));
   }
   close(connection);
   close(read_pipe);
