@@ -303,14 +303,7 @@ static int tg_check_lines(tetris_game *obj)
 static void tg_adjust_score(tetris_game *obj, int lines_cleared)
 {
   static int line_multiplier[] = {0, 40, 100, 300, 1200};
-  obj->points += line_multiplier[lines_cleared] * (obj->level + 1);
-  if (lines_cleared >= obj->lines_remaining) {
-    obj->level = MIN(MAX_LEVEL, obj->level + 1);
-    lines_cleared -= obj->lines_remaining;
-    obj->lines_remaining = LINES_PER_LEVEL - lines_cleared;
-  } else {
-    obj->lines_remaining -= lines_cleared;
-  }
+  obj->points += line_multiplier[lines_cleared];
 }
 
 /*
@@ -365,7 +358,6 @@ void tg_init(tetris_game *obj, int rows, int cols)
   obj->board = malloc(rows * cols);
   memset(obj->board, TC_EMPTY, rows * cols);
   obj->points = 0;
-  obj->level = 0;
   obj->ticks_till_gravity = 50;
   srand(time(NULL));
   tg_new_falling(obj);

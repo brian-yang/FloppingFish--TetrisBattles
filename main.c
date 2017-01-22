@@ -67,8 +67,6 @@ void display_score(WINDOW *w, tetris_game *tg)
   wclear(w);
   box(w, 0, 0);
   wprintw(w, "Score\n%d\n", tg->points);
-  wprintw(w, "Level\n%d\n", tg->level);
-  wprintw(w, "Lines\n%d\n", tg->lines_remaining);
   wnoutrefresh(w);
 }
 

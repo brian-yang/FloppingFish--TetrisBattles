@@ -59,6 +59,20 @@ typedef struct {
 } tetris_game;
 
 /*
+  A "cell" is a 1x1 block within a tetris board.
+ */
+typedef enum {
+  TC_EMPTY, TC_CELLI, TC_CELLJ, TC_CELLL, TC_CELLO, TC_CELLS, TC_CELLT, TC_CELLZ
+} tetris_cell;
+
+/*
+  A "type" is a type/shape of a tetromino.  Not including orientation.
+ */
+typedef enum {
+  TET_I, TET_J, TET_L, TET_O, TET_S, TET_T, TET_Z
+} tetris_type;
+
+/*
   Array storing tetromino information - type, orientation, and mapping arrays
  */
 extern tetris_location TETROMINOS[NUM_TETROMINOS][NUM_ORIENTATIONS][TETRIS];
