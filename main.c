@@ -2,7 +2,7 @@
 /*
   Print out individual cells
 */
-#define ADD_piece(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
+#define ADD_piece(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));	\
   waddch((w),' '|A_REVERSE|COLOR_PAIR(x))
 #define ADD_EMPTY(w) wattron(w,COLOR_BLACK); waddch((w), ' '); waddch((w), ' '); wattroff(w,COLOR_BLACK);
 
@@ -11,12 +11,12 @@
 */
 void display_board(WINDOW *w, game *obj)
 {
-int i, j;
-init_pair(16, COLOR_WHITE,   COLOR_BLACK);
-wattron(w,COLOR_PAIR(16));
-box(w,0,0);
-wattroff(w,COLOR_PAIR(16));
-for (i = 0; i < obj->rows ; i++) {
+  int i, j;
+  init_pair(16, COLOR_WHITE,   COLOR_BLACK);
+  wattron(w,COLOR_PAIR(16));
+  box(w,0,0);
+  wattroff(w,COLOR_PAIR(16));
+  for (i = 0; i < obj->rows ; i++) {
     wattron(w,COLOR_BLACK); mvwaddch(w,0,i, ' ');
     wattroff(w,COLOR_BLACK);
   }
@@ -59,7 +59,7 @@ void display_piece(WINDOW *w, piece piece)
 */
 void display_score(WINDOW *w, game *ff)
 {
- wclear(w);
+  wclear(w);
   init_pair(16, COLOR_BLACK, COLOR_BLACK);
   //box(w, 0, 0);
   wattron(w,COLOR_PAIR(5));
@@ -81,7 +81,7 @@ void display_score(WINDOW *w, game *ff)
 void init_colors(void)
 {
   start_color();
-use_default_colors();
+  use_default_colors();
 
   init_pair(I, COLOR_CYAN, COLOR_BLACK);
   init_pair(J, COLOR_BLUE, COLOR_BLACK);
@@ -92,16 +92,10 @@ use_default_colors();
   init_pair(Z, COLOR_RED, COLOR_BLACK);
 }
 
-/*
-  Main tetris game! ff for FLOPPING_FISH
-*/
-int main(int argc, char **argv)
-{
+game* init_game() {
   game *ff;
-  bool running = true;
-
-  WINDOW *board, *next, *hold, *score;
   ff = ff_create(22, 10);
+
   // NCURSES initialization:
   initscr();             // initialize curses
   cbreak();              // pass key presses to program, but not signals
@@ -112,19 +106,11 @@ int main(int argc, char **argv)
   init_colors();         // setup tetris colors
   bkgdset(COLOR_PAIR(4));
 
-  int startx, starty, width, height;
-  height = 22;
-  width = 30;
-  starty = (LINES - height) / 2;  /* Calculating for a center placement */
-  startx = (COLS - width) / 2;
-  // Create windows for each section of the interface.
-  board = newwin(ff->rows + 2, 2 * ff->cols + 2, starty, startx);
-  next  = newwin(6, 10, starty+2, startx+(2 * (ff->cols + 1) + 1));
-  hold  = newwin(6, 10, starty+9, startx+(2 * (ff->cols + 1) + 1));
-  score = newwin(6, 10, starty+16, startx+(2 * (ff->cols + 1 ) ));
+  return ff;
+}
 
-
-
+void run_game(game* ff, WINDOW* board, WINDOW* next, WINDOW* hold, WINDOW* score) {
+  bool running = true;
   // Game loop
   while (running) {
     running = ff_tick(ff);
@@ -149,8 +135,8 @@ int main(int argc, char **argv)
     case KEY_DOWN:
       break;
     case 'q':
-	    running = false;
-	    break;
+      running = false;
+      break;
     case ' ':
       ff_down(ff);
       break;
@@ -159,6 +145,30 @@ int main(int argc, char **argv)
     }
     sleep_milli(15);
   }
+}
+
+/*
+  Main tetris game! ff for FLOPPING_FISH
+*/
+int main(int argc, char **argv)
+{
+  game *ff;
+
+  WINDOW *board, *next, *hold, *score;
+  ff = init_game();
+
+  int startx, starty, width, height;
+  height = 22;
+  width = 30;
+  starty = (LINES - height) / 2;  /* Calculating for a center placement */
+  startx = (COLS - width) / 2;
+  // Create windows for each section of the interface.
+  board = newwin(ff->rows + 2, 2 * ff->cols + 2, starty, startx);
+  next  = newwin(6, 10, starty+2, startx+(2 * (ff->cols + 1) + 1));
+  hold  = newwin(6, 10, starty+9, startx+(2 * (ff->cols + 1) + 1));
+  score = newwin(6, 10, starty+16, startx+(2 * (ff->cols + 1 ) ));
+
+  run_game(ff, board, next, hold, score);
 
   //End game message and exit curses mode
   wclear(stdscr);

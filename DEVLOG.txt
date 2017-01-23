@@ -29,3 +29,6 @@ brianY -- 2017-01-22 6:24 PM
 
 brianY -- 2017-01-22 7:29 PM
 - Change screen refresh time to reduce flickering
+
+brianY -- 2017-01-23 2:06 PM
+- Modularize functions

@@ -44,11 +44,14 @@ int main( int argc, char *argv[] ) {
 
   printf("Game started!\n");
 
-  int converted_num = htonl(0);
-  write( sd, &converted_num, sizeof(converted_num) );
+  while (1) {
+    // placeholder for refreshing game
 
-  read( sd, &received_int, sizeof(received_int) );
-  printf( "received: %d\n", received_int );
-  
+    int converted_num = htonl(0);
+    write( sd, &converted_num, sizeof(converted_num) );
+
+    read( sd, &received_int, sizeof(received_int) );
+    printf( "received: %d\n", received_int );
+  }
   return 0;
 }
