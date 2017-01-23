@@ -4,7 +4,7 @@
 */
 #define ADD_piece(w,x) waddch((w),' '|A_REVERSE|COLOR_PAIR(x));     \
   waddch((w),' '|A_REVERSE|COLOR_PAIR(x))
-#define ADD_EMPTY(w) wattron(w,COLOR_BLACK); waddch((w), ' '); waddch((w), ' '); wattroff(w,COLOR_BLACK); 
+#define ADD_EMPTY(w) wattron(w,COLOR_BLACK); waddch((w), ' '); waddch((w), ' '); wattroff(w,COLOR_BLACK);
 
 /*
   Print the tetris board
@@ -62,16 +62,16 @@ void display_score(WINDOW *w, game *ff)
  wclear(w);
   init_pair(16, COLOR_BLACK, COLOR_BLACK);
   //box(w, 0, 0);
-  wattron(w,COLOR_PAIR(5)); 
+  wattron(w,COLOR_PAIR(5));
   mvwprintw(w, 2,1, "        \n" /*,tg->points*/);
   mvwprintw(w, 3,1, "  Score \n" /*,tg->points*/);
   mvwprintw(w, 4,1, "    %d  \n", ff->points);
   mvwprintw(w, 4,8, " ");
   mvwprintw(w, 5,1, "        \n" /*,tg->points*/);
   wattron(w,COLOR_PAIR(16));
-  //mvwprintw(w, 4,9, " "); 
+  //mvwprintw(w, 4,9, " ");
   wattroff(w,COLOR_PAIR(16));
-    
+
   wnoutrefresh(w);
 }
 
@@ -124,6 +124,7 @@ int main(int argc, char **argv)
   score = newwin(6, 10, starty+16, startx+(2 * (ff->cols + 1 ) ));
 
 
+
   // Game loop
   while (running) {
     running = ff_tick(ff);
@@ -131,8 +132,8 @@ int main(int argc, char **argv)
     display_piece(next, ff->next);
     display_piece(hold, ff->stored);
     display_score(score, ff);
-    /* doupdate(); */
-    refresh();
+    doupdate();
+    /* refresh(); */
 
     //case handling
     switch(getch()){
@@ -156,7 +157,7 @@ int main(int argc, char **argv)
     default:
       break;
     }
-    sleep_milli(7);
+    sleep_milli(15);
   }
 
   //End game message and exit curses mode

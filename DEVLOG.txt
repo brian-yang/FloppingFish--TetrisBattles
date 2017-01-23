@@ -26,3 +26,6 @@ brianY -- 2017-01-22 1:33 PM
 
 brianY -- 2017-01-22 6:24 PM
 - Allow clients to send numbers
+
+brianY -- 2017-01-22 7:29 PM
+- Change screen refresh time to reduce flickering
