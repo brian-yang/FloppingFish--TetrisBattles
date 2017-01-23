@@ -21,24 +21,34 @@ int main( int argc, char *argv[] ) {
 
   char buffer[MESSAGE_BUFFER_SIZE];
 
-  while (1) {
-    printf("enter message: ");
+  int not_found_opponent = 1;
 
-    fgets( buffer, sizeof(buffer), stdin );
+  printf("Waiting for an opponent...\n");
 
-    char *p = strchr(buffer, '\n');
-    *p = '\0';
+  int received_int = 0;
 
-    int random_num = 5;
-    int converted_num = htonl(random_num);
+  while (not_found_opponent) {
+    /* int random_num = 0; */
+    /* int converted_num = htonl(random_num); */
 
-    write( sd, &converted_num, sizeof(converted_num) );
-
-    int received_int = 0;
+    /* write( sd, &converted_num, sizeof(converted_num) ); */
 
     read( sd, &received_int, sizeof(received_int) );
     printf( "received: %d\n", received_int );
+
+    if (received_int == -1) {
+      not_found_opponent = 0;
+    }
+
   }
 
+  printf("Game started!\n");
+
+  int converted_num = htonl(0);
+  write( sd, &converted_num, sizeof(converted_num) );
+
+  read( sd, &received_int, sizeof(received_int) );
+  printf( "received: %d\n", received_int );
+  
   return 0;
 }
