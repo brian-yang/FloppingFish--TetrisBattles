@@ -38,11 +38,11 @@ typedef struct {
   int cols;
   char *board;
   int points;
-  
+
   piece falling;
   piece next;
   piece stored;
-  
+
   int ticks_till_gravity;
 } game;
 

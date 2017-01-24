@@ -128,7 +128,7 @@ static void ff_new_falling(game *obj)
 }
 
 /*
-  Tick gravity, and move the piece down if there is gravity. 
+  Tick gravity, and move the piece down if there is gravity.
  */
 static void ff_do_gravity_tick(game *obj)
 {
@@ -162,7 +162,7 @@ void ff_move(game *obj, int direction)
 }
 
 /*
-  Drop piece to bottom. 
+  Drop piece to bottom.
  */
 void ff_down(game *obj)
 {
@@ -176,7 +176,7 @@ void ff_down(game *obj)
 }
 
 /*
-  Rotate piece. 
+  Rotate piece.
  */
 void ff_rotate(game *obj, int direction)
 {
@@ -321,13 +321,13 @@ bool ff_tick(game *obj)
 
   ff_adjust_score(obj, lines_cleared);
 
-  // Return whether the game will continue 
+  // Return whether the game will continue
   return !ff_game_over(obj);
 }
 
 void ff_init(game *obj, int rows, int cols)
 {
-  // Initial setup and variables 
+  // Initial setup and variables
   obj->rows = rows;
   obj->cols = cols;
   obj->board = malloc(rows * cols);
@@ -345,7 +345,7 @@ void ff_init(game *obj, int rows, int cols)
 
 game *ff_create(int rows, int cols)
 {
-  game *obj = malloc(sizeof(game));
+  game *obj = (game *) malloc(sizeof(game));
   ff_init(obj, rows, cols);
   return obj;
 }
@@ -355,7 +355,7 @@ void ff_destroy(game *obj)
   free(obj->board);
 }
 
-void ff_delete(game *obj) 
+void ff_delete(game *obj)
 {
   ff_destroy(obj);
   free(obj);
@@ -368,10 +368,3 @@ void sleep_milli(int milliseconds)
   ts.tv_nsec = milliseconds * 1000 * 1000;
   nanosleep(&ts, NULL);
 }
-
-
-
-
-
-
-

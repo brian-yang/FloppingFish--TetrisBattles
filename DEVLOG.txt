@@ -32,3 +32,6 @@ brianY -- 2017-01-22 7:29 PM
 
 brianY -- 2017-01-23 2:06 PM
 - Modularize functions
+
+brianY -- 2017-01-23 7:38 PM
+- Work on integrating networking with game

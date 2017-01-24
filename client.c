@@ -4,6 +4,9 @@
 #include <unistd.h>
 
 #include "networking.h"
+#include "common.h"
+
+game* init_game();
 
 int main( int argc, char *argv[] ) {
 
@@ -48,7 +51,7 @@ int main( int argc, char *argv[] ) {
   game *ff;
 
   WINDOW *board, *next, *hold, *score;
-  ff = init_game();
+  ff = (game*) init_game();
 
   int startx, starty, width, height;
   height = 22;
@@ -63,26 +66,45 @@ int main( int argc, char *argv[] ) {
 
   bool running = true;
   int game_status = 0;
-  int received_int = 0;
   //==========================================
 
   while (running) {
-    game_status = run_game(ff, board, next, hold, score);
-    if (game_status == -1) {
+    /* game_status = run_game(ff, board, next, hold, score); */
+    /* if (game_status == -1) { */
+    /*   running = false; */
+    /* } */
+
+    running = ff_tick(ff);
+    display_board(board, ff);
+    display_piece(next, ff->next);
+    display_piece(hold, ff->stored);
+    display_score(score, ff);
+    doupdate();
+    /* refresh(); */
+
+    //case handling
+    switch(getch()){
+    case KEY_LEFT:
+      ff_move(ff, -1);
+      break;
+    case KEY_RIGHT:
+      ff_move(ff, 1);
+      break;
+    case KEY_UP:
+      ff_rotate(ff, 1);
+      break;
+    case KEY_DOWN:
+      break;
+    case 'q':
       running = false;
+      break;
+    case ' ':
+      ff_down(ff);
+      break;
+    default:
+      break;
     }
-
-    int converted_num = htonl(game_status);
-    write( sd, &converted_num, sizeof(converted_num) );
-
-    read( sd, &received_int, sizeof(received_int) );
-    if (received_int == -1) {
-      running = false;
-    }
-
-    sleep_milli(15);
   }
-
   end_game(ff);
 
   return 0;
