@@ -161,6 +161,15 @@ void ff_move(game *obj, int direction)
   ff_put(obj, obj->falling);
 }
 
+/* void ff_clear_bombs(game *obj) */
+/* { */
+/*   int row = obj->falling.loc.row; */
+/*   int col = obj->falling.loc.col; */
+/*   if(ff_get(obj,row+4,col) == 'B'){ */
+/*     ff_shift_lines(obj, row-1); */
+/*   } */
+/* } */
+
 /*
   Drop piece to bottom.
  */
@@ -169,9 +178,9 @@ void ff_down(game *obj)
   ff_remove(obj, obj->falling);
   while (ff_fits(obj, obj->falling)) {
     obj->falling.loc.row++;
-    ff_clear_bombs(obj);
+    /* ff_clear_bombs(obj); */
   }
-  ff_clear_bombs(obj);
+  /* ff_clear_bombs(obj); */
   obj->falling.loc.row--;
   ff_put(obj, obj->falling);
   ff_new_falling(obj);
@@ -254,15 +263,6 @@ static void ff_shift_lines(game *obj, int r)
       ff_set(obj, i+1, j, ff_get(obj, i, j));
       ff_set(obj, i, j, EMPTY);
     }
-  }
-}
-
-void ff_clear_bombs(game *obj)
-{
-  int row = obj->falling.loc.row;
-  int col = obj->falling.loc.col;
-  if(ff_get(obj,row+4,col) == 'B'){
-    ff_shift_lines(obj, row-1);
   }
 }
 

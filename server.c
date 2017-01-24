@@ -95,7 +95,7 @@ int main() {
       close(c);
     }
   }
-  printf("[server] Server has reached maximum capacity. Please try again later!");
+  printf("[server] Server has reached maximum capacity. Please try again later!\n");
   return 0;
 }
 
