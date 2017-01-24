@@ -57,7 +57,7 @@ int main() {
 
       int converted_num = htonl(-1);
       write(c, &converted_num, sizeof(converted_num));
-      
+
       char buffer2[MESSAGE_BUFFER_SIZE];
       if (pipe_ids[0] < pipes_in_use - 2) {
 	sub_server1(c, pipes_in_use - 2, pipe_ids[1], buffer2);
@@ -106,8 +106,6 @@ void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer) {
     int converted_num = htonl(read_num2);
     write(connection, &converted_num, sizeof(converted_num));
 
-    break;
-    
     int received_int = 0;
     read(connection, &received_int, sizeof(received_int));
   }
@@ -128,8 +126,6 @@ void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer) {
     int converted_num = htonl(read_num2);
     write(connection, &converted_num, sizeof(converted_num));
 
-    break;
-    
     int received_int = 0;
     read(connection, &received_int, sizeof(received_int));
   }

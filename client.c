@@ -98,11 +98,22 @@ int main( int argc, char *argv[] ) {
     case 'q':
       running = false;
       break;
+    case 'l':
+      ff_getline(ff,ff->rows,board);
+      break;
     case ' ':
       ff_down(ff);
       break;
     default:
       break;
+    }
+
+    int converted_num = htonl(running);
+    write(sd, &converted_num, sizeof(converted_num));
+
+    read(sd, &received_int, sizeof(received_int) );
+    if (received_int == 0) {
+      running = false;
     }
   }
   end_game(ff);

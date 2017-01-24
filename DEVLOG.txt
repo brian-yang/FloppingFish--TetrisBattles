@@ -35,3 +35,6 @@ brianY -- 2017-01-23 2:06 PM
 
 brianY -- 2017-01-23 7:38 PM
 - Work on integrating networking with game
+
+brianY -- 2017-01-23 8:30 PM
+- Fix error with sending data in game

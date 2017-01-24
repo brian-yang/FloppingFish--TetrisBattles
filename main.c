@@ -100,52 +100,11 @@ game* init_game() {
   noecho();              // don't echo key presses to screen
   keypad(stdscr, TRUE);  // allow arrow keys
   timeout(0);            // no blocking on getch()
-  curs_set(0);           // set the cursor to invisible
+  //curs_set(0);           // set the cursor to invisible
   init_colors();         // setup tetris colors
   bkgdset(COLOR_PAIR(4));
 
   return ff;
-}
-
-int run_game(game* ff, WINDOW* board, WINDOW* next, WINDOW* hold, WINDOW* score) {
-  bool running = ff_tick(ff);
-  display_board(board, ff);
-  display_piece(next, ff->next);
-  display_piece(hold, ff->stored);
-  display_score(score, ff);
-  doupdate();
-  /* refresh(); */
-
-  //case handling
-  switch(getch()){
-  case KEY_LEFT:
-    ff_move(ff, -1);
-    break;
-  case KEY_RIGHT:
-    ff_move(ff, 1);
-    break;
-  case KEY_UP:
-    ff_rotate(ff, 1);
-    break;
-  case KEY_DOWN:
-    break;
-  case 'q':
-    running = false;
-    break;
-  case 'l':
-    ff_getline(ff,ff->rows,board);
-  case ' ':
-    ff_down(ff);
-    break;
-  default:
-    break;
-  }
-
-  if (!running) {
-    return -1;
-  }
-  return 0;
-
 }
 
 void end_game(game* ff) {
@@ -155,6 +114,48 @@ void end_game(game* ff) {
   printf("Game over!\n");
   ff_delete(ff);
 }
+
+
+/* int run_game(game* ff, WINDOW* board, WINDOW* next, WINDOW* hold, WINDOW* score) { */
+/*   bool running = ff_tick(ff); */
+/*   display_board(board, ff); */
+/*   display_piece(next, ff->next); */
+/*   display_piece(hold, ff->stored); */
+/*   display_score(score, ff); */
+/*   doupdate(); */
+/*   /\* refresh(); *\/ */
+
+/*   //case handling */
+/*   switch(getch()){ */
+/*   case KEY_LEFT: */
+/*     ff_move(ff, -1); */
+/*     break; */
+/*   case KEY_RIGHT: */
+/*     ff_move(ff, 1); */
+/*     break; */
+/*   case KEY_UP: */
+/*     ff_rotate(ff, 1); */
+/*     break; */
+/*   case KEY_DOWN: */
+/*     break; */
+/*   case 'q': */
+/*     running = false; */
+/*     break; */
+/*   case 'l': */
+/*     ff_getline(ff,ff->rows,board); */
+/*   case ' ': */
+/*     ff_down(ff); */
+/*     break; */
+/*   default: */
+/*     break; */
+/*   } */
+
+/*   if (!running) { */
+/*     return -1; */
+/*   } */
+/*   return 0; */
+
+/* } */
 
 /* /\* */
 /*   Main tetris game! ff for FLOPPING_FISH */
