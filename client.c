@@ -98,6 +98,9 @@ int main( int argc, char *argv[] ) {
     case 'q':
       running = false;
       break;
+    case 'z':
+      ff_hold(ff);
+      break;
     case 'l':
       ff_getline(ff,ff->rows,board);
       break;
