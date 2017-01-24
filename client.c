@@ -37,7 +37,7 @@ int main( int argc, char *argv[] ) {
     /* write( sd, &converted_num, sizeof(converted_num) ); */
 
     read( sd, &received_int, sizeof(received_int) );
-    printf( "received: %d\n", received_int );
+    // printf( "received: %d\n", received_int );
 
     if (received_int == -1) {
       not_found_opponent = 0;
