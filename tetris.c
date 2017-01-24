@@ -258,6 +258,34 @@ static void ff_shift_lines(game *obj, int r)
 }
 
 /*
+  Move tetris blocks up and add a grey line at bottom
+ */
+
+void ff_getline(game *obj, int r, WINDOW* board)
+{
+  ff_remove(obj, obj->falling);
+  int i, j,k,z;
+  for (i = 1; i <= r; i++) {
+    for (j = 0; j < obj->cols; j++) {
+      ff_set(obj, i-1, j, ff_get(obj, i, j));
+      ff_set(obj, i, j, EMPTY);
+    }
+    init_pair(16, COLOR_BLACK, COLOR_WHITE);
+  }
+  obj->rows -= 1;
+  for (z = obj->rows+1; z <= r; z++) {
+    for (k = 0; k <= 20; k++) {
+      wattron(board,COLOR_PAIR(16)); mvwaddch(board,r,k, ' ');
+      wattroff(board,COLOR_PAIR(16));
+    }
+  }
+  for (i = 0; i < 20; i++) {
+    wattron(board,COLOR_BLACK); mvwaddch(board,0,i, 'h');
+    wattroff(board,COLOR_BLACK);
+  }
+  ff_put(obj, obj->falling); // NNEEEDS FIXX
+}
+/*
   Find rows that are filled, remove them, shift, and return the number of
   cleared rows.
  */

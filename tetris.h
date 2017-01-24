@@ -63,6 +63,7 @@ extern pos TETROMINOS[NUM_TETROMINOS][NUM_ORIENTATIONS][TETRIS];
 */
 void ff_move(game *obj, int direction);
 void ff_init(game *obj, int rows, int cols);
+void ff_getline(game*obj, int r, WINDOW* board);
 game *ff_create(int rows, int cols);
 void ff_destroy(game *obj);
 void ff_delete(game *obj);

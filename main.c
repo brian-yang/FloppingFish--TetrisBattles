@@ -132,6 +132,8 @@ int run_game(game* ff, WINDOW* board, WINDOW* next, WINDOW* hold, WINDOW* score)
   case 'q':
     running = false;
     break;
+  case 'l':
+    ff_getline(ff,ff->rows,board);
   case ' ':
     ff_down(ff);
     break;
