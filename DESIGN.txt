@@ -8,34 +8,26 @@ TeamFloppingFish: Anthony Liang, Brian Yang, Shaeq Ahmed
 
 Description of Project:
 This project is intended to be a replica of the popular Facebook game Tetris Battle, in which players play Tetris
-against each other and can add lines to their opponent’s game by completing lines in their own game.
-Players can also see their opponents playing at the same time on their screens. In this version of Tetris Battle,
-the terminal will be used as the GUI. Beyond basic gameplay, a core focus of our Tetris game is on asynchronous
-gameplay (pseudo multiplayer). Our version of Tetris uses the standard grid size, a board 10 units wide and 20 units high.
-The game will have seven color coded tetromino shapes which can be represented with letters that suit the
-overall structure of the piece: I, J, L, O, S, T, Z.
+against each other given the same pieces and allowing players to send lines to opponents. In this version of Tetris Battle,
+the terminal will be used as the GUI. Beyond basic gameplay, a core focus of our Tetris game is on asynchronous gameplay
+ (pseudo multiplayer). Our version of Tetris uses the standard grid size, a board 10 units wide and 20 units high.
+The game will have seven color coded tetromino shapes which can be represented with letters that suit the overall
+ structure of the piece: I, J, L, O, S, T, Z.
 
 User Interface:
-The terminal will be split into two screens (Player1 and Player2) and a header bar.
-The header bar indicates player information (name, lines sent, current score) as well as
-time remaining in the current battle. The screens will have the Tetris display in the center.
+The terminal has one screen (the player's screen) and a header bar.
+The header bar indicates the current score. The screens will have the Tetris display in the center.
 On the left is the piece in Hold, while the subsequent pieces are on the right.
 
 Technical Design:
 Allocating memory
 	* for the tetris board and each game piece type
-Working with files
-	* keep track of high scores
 Processes (forking, exec etc.).
 	* using forking taking turns
 	* using sleep to pause the game
-Signals
-	* ending the game when someone wins or loses
 Pipes (named and unnamed).
-        * keep track of whether a line has been sent to the opponent’s game
+        * keep track of whether a line has been sent to the opponent’s game (tried but could not get it to work)
 	* when one player wins/runs out of space, tell the other player that a player has won/run out of space
-Shared memory, semaphores.
-        * only allow one instance of the game running on one computer at a time
 Networking.
 	* the multiplayer aspect of the game, allowing 2P to verse each other
 	* have multiple clients connect to the server, having each player start a game with an opponent as soon as an opponent is available

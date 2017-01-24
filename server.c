@@ -30,17 +30,19 @@ int main() {
 
   int pipes_in_use = pipes[0];
   int waiting_room_pipes[2] = {-1, -1};
+  int num_users = 0;
 
   //===============================================================
   //===============================================================
 
   sd = server_setup();
 
-  while (pipes_in_use < 2 * NUM_USERS) {
+  while (num_users < NUM_USERS) {
 
     c = server_connect( sd );
 
     pipes_in_use += 2;
+    num_users += 1;
 
     int f = fork();
     if ( f == 0 ) {
@@ -93,6 +95,7 @@ int main() {
       close(c);
     }
   }
+  printf("[server] Server has reached maximum capacity. Please try again later!");
   return 0;
 }
 
