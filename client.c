@@ -102,7 +102,7 @@ int main( int argc, char *argv[] ) {
       ff_hold(ff);
       break;
     case 'l':
-      ff_getline(ff,ff->rows,board);
+      ff_get_line(ff,ff->rows,board);
       break;
     case ' ':
       ff_down(ff);

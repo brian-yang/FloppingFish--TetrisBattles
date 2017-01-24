@@ -50,7 +50,7 @@ typedef struct {
   A "cell" is a 1x1 piece within a tetris board. Used for color initialization.
  */
 typedef enum {
-  EMPTY, I, J, L, O, S, T, Z
+  EMPTY, I, J, L, O, S, T, Z, B
 } tetris_cell;
 
 /*
@@ -63,10 +63,11 @@ extern pos TETROMINOS[NUM_TETROMINOS][NUM_ORIENTATIONS][TETRIS];
 */
 void ff_move(game *obj, int direction);
 void ff_init(game *obj, int rows, int cols);
-void ff_getline(game*obj, int r, WINDOW* board);
+void ff_get_line(game*obj, int r, WINDOW* board);
 game *ff_create(int rows, int cols);
 void ff_destroy(game *obj);
 void ff_delete(game *obj);
+void ff_clear_bomb(game *obj);
 void ff_down(game *obj);
 void ff_rotate(game *obj, int direction);
 void ff_hold(game *obj);

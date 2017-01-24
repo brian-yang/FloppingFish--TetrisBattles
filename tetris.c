@@ -169,7 +169,9 @@ void ff_down(game *obj)
   ff_remove(obj, obj->falling);
   while (ff_fits(obj, obj->falling)) {
     obj->falling.loc.row++;
+    ff_clear_bombs(obj);
   }
+  ff_clear_bombs(obj);
   obj->falling.loc.row--;
   ff_put(obj, obj->falling);
   ff_new_falling(obj);
@@ -255,11 +257,20 @@ static void ff_shift_lines(game *obj, int r)
   }
 }
 
+void ff_clear_bombs(game *obj)
+{
+  int row = obj->falling.loc.row;
+  int col = obj->falling.loc.col;
+  if(ff_get(obj,row+4,col) == 'B'){
+    ff_shift_lines(obj, row-1);
+  }
+}
+
 /*
-  Move tetris blocks up and add a grey line at bottom
+  Move tetris blocks up and add a grey line at bottom with a bomb placed randomly.
  */
 
-void ff_getline(game *obj, int r, WINDOW* board)
+void ff_get_line(game *obj, int r, WINDOW* board)
 {
   ff_remove(obj, obj->falling);
   int i,j,k,z;
@@ -268,22 +279,21 @@ void ff_getline(game *obj, int r, WINDOW* board)
       ff_set(obj, i-1, j, ff_get(obj, i, j));
       ff_set(obj, i, j, EMPTY);
     }
-    init_pair(16, COLOR_GREEN, COLOR_GREEN);
-    init_pair(17, COLOR_BLACK, COLOR_BLACK);
   }
   obj->rows -= 1;
   srand(time(NULL));
-  int l = rand() % 20 + 1;
+  int l = rand() % 20;
   for (z = obj->rows+1; z <= r; z++) {
-    for (k = 0; k <= 20; k++) {
-      if(k == l && l == 20){
-	wattron(board,COLOR_PAIR(17)); 
-	mvwaddstr(board,r,k,"aa"); 
+    for (k = 1; k <= 20; k++) {
+      if(k == l && l == 19){
+	ff_set(obj,r,k,B);
       }else if(k == l){
 	wattron(board,COLOR_PAIR(17));
 	mvwaddstr(board,r,k-1,"aa");
+	ff_set(obj,r,k-1,B);
       }else {
 	wattron(board,COLOR_PAIR(16)); mvwaddch(board,r,k, ' ');
+	ff_set(obj,r,k,B);
 	wattroff(board,COLOR_PAIR(16));
       }
     }

@@ -88,6 +88,8 @@ void init_colors(void)
   init_pair(Z, COLOR_RED, COLOR_BLACK);
   init_pair(5, COLOR_GREEN, COLOR_BLACK);
   init_pair(15, COLOR_MAGENTA, COLOR_CYAN);
+  init_pair(16, COLOR_BLACK, COLOR_WHITE);
+  init_pair(17, COLOR_BLACK, COLOR_BLACK);
 }
 
 game* init_game() {
