@@ -2,6 +2,7 @@
 #define NETWORKING_H
 
 #define MESSAGE_BUFFER_SIZE 1024
+#define PORT 9001
 
 void error_check( int i, char *s );
 
