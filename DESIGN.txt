@@ -68,8 +68,8 @@ Data Structures:
      * int width
      * int game_over
 * struct piece
-     * int w
-     * int h
+     * int width
+     * int height
      * char shape[][]
 * array of possible game piece shapes (ie. I, J, L)
 
