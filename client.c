@@ -115,6 +115,8 @@ int main( int argc, char *argv[] ) {
     if (received_int == 0) {
       running = false;
     }
+
+    sleep_milli(15);
   }
   end_game(ff);
 

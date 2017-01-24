@@ -100,7 +100,7 @@ game* init_game() {
   noecho();              // don't echo key presses to screen
   keypad(stdscr, TRUE);  // allow arrow keys
   timeout(0);            // no blocking on getch()
-  //curs_set(0);           // set the cursor to invisible
+  curs_set(0);           // set the cursor to invisible
   init_colors();         // setup tetris colors
   bkgdset(COLOR_PAIR(4));
 
