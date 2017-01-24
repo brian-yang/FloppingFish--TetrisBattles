@@ -2,18 +2,41 @@ ENTRY FORMAT:
 firstL -- TIMESTAMP
 <CHANGES>
 
-brianY -- 2017-01-13 10:42AM
+brianY -- 2017-01-13 10:42 AM
 - Add ncurses library
 
-brianY -- 2017-01-16 3:05PM
+anthonyL -- 2017-01-15 3:10 PM
+- started Tetris game
+- figured out how to use ncurses library to display windows
+- initialized color pairs for tetrominos 
+- started ncurses mode
+
+brianY -- 2017-01-16 3:05 PM
 - Fix compilation errors
 - Add to makefile
+
+anthonyL -- 2017-01-16 2:30 PM
+- created basic tetromino structure - type, orientation, rotations
+- wrote function to generate new "falling" tetrominos
+- started to write a print board function
+
+anthonyL -- 2017-01-17 2:45 PM
+- write function to put a piece onto the board
+- started to work on key handling
 
 brianY -- 2017-01-19 1:11 PM
 - Add networking files
 
-brianY -- 2017-01-20 2:06PM
+anthonyL -- 2017-01-19 1:40 PM
+- added movement functions (left, right, down, rotate)
+- making the piece movement more robust
+
+brianY -- 2017-01-20 2:06 PM
 - Work on networking server
+
+anthonyL -- 2017-01-20 2:10 PM
+- creating a running loop
+- every tick, the game will refresh and update pieces, score, hold, etc
 
 brianY -- 2017-01-20 3:42 PM
 - Allow client to get IP
@@ -21,14 +44,22 @@ brianY -- 2017-01-20 3:42 PM
 brianY -- 2017-01-22 3:14 AM
 - Allow subprocesses to get pipe ids
 
+anthonyL -- 2017-01-22 4:50 PM
+- collision detection 
+- function to check if line is full and can be cleared
+- if line can be cleared, shift every row down one
+
 shaeqA -- 2017-01-22 7:45 PM
-- Add to basic gui format etc debug gltiches
+- Add to basic gui format etc debug glitches
 
 brianY -- 2017-01-22 1:33 PM
 - Get networking to finally work
 
 brianY -- 2017-01-22 6:24 PM
 - Allow clients to send numbers
+
+anthonyL -- 2017-01-22 7:00 PM
+- wrote end_game function 
 
 brianY -- 2017-01-22 7:29 PM
 - Change screen refresh time to reduce flickering
