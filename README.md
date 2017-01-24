@@ -30,7 +30,9 @@ Use z to switch out pieces, and after a line has been completed, your score will
 * tetris.h
 * DESIGN.txt
 * DEVLOG.txt
-* Makefile
+* DOCUMENTATION.pdf
+* README.md
+* makefile
 
 ## Additional Information/Bugs
 ### Important note
