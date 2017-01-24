@@ -16,6 +16,8 @@ void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer);
 void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer);
 
 int main() {
+  printf("[server] Server started!\n");
+
   int sd; // initial file descriptor for connection between server and client
   int pipes[2 * NUM_USERS]; // pipes for communicating between server and subprocesses
   int c; // server-client connection

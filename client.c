@@ -12,7 +12,7 @@ int main( int argc, char *argv[] ) {
 
   char *host;
   if (argc != 2 ) {
-    printf("host not specified, conneting to 127.0.0.1\n");
+    printf("host not specified, connecting to 127.0.0.1\n");
     host = "127.0.0.1";
   }
   else
@@ -46,6 +46,7 @@ int main( int argc, char *argv[] ) {
   }
 
   printf("Game started!\n");
+  printf("\e[8;50;200t\n");
 
   //==========================================
   game *ff;
@@ -113,15 +114,36 @@ int main( int argc, char *argv[] ) {
 
     int converted_num = htonl(running);
     write(sd, &converted_num, sizeof(converted_num));
+    if (!running) {
+      close(sd);
+      end_game(ff);
+      printf("You lost!\n");
+
+      return 0;
+    }
+
 
     read(sd, &received_int, sizeof(received_int) );
     if (received_int == 0) {
       running = false;
-    }
+    }/*  else if (received > 0) { */
+    /*   /\* int i; *\/ */
+    /*   /\* for (i = 0; i < received_int; i) { *\/ */
+    /*   /\*   ff_getline(ff, ff->rows, board); *\/ */
+    /*   /\* } *\/ */
+
+    /*   /\* ff_getline(ff, ff->rows, board); *\/ */
+    /*   /\* exit(0); *\/ */
+
+    /*   ff_getline(ff, ff->rows, board); */
+    /*   sleep_milli(1000); */
+    /* } */
 
     sleep_milli(15);
   }
+  close(sd);
   end_game(ff);
+  printf("You won! Congratulations!\n");
 
   return 0;
 }
