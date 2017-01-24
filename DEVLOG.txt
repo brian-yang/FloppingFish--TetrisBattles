@@ -21,6 +21,9 @@ brianY -- 2017-01-20 3:42 PM
 brianY -- 2017-01-22 3:14 AM
 - Allow subprocesses to get pipe ids
 
+shaeqA -- 2017-01-22 7:45 PM
+- Add to basic gui format etc debug gltiches
+
 brianY -- 2017-01-22 1:33 PM
 - Get networking to finally work
 
@@ -38,3 +41,7 @@ brianY -- 2017-01-23 7:38 PM
 
 brianY -- 2017-01-23 8:30 PM
 - Fix error with sending data in game
+
+shaeqA -- 2017-01-23 7:30 PM
+- Add tetris battle get line feature
+
