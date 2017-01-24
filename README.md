@@ -33,8 +33,12 @@ Use z to switch out pieces, and after a line has been completed, your score will
 * Makefile
 
 ## Additional Information/Bugs
+### Important note
 * Any computer can connect to the server and play as long as the client has the server's IP. However, the server can only accept a maximum of 10 connections after t is first run before the server must be restarted. For example, you start the server, and let's say you disconnect and reconnect 10 times, even though you haven't played a game. After the 10th time, the server will refuse the connection, and the server must be restarted.
+### Bugs
 * The screen may flicker at times during the game depending how high your stacks are.
 * The score board may appear weirdly if your score is more than one digit.
+### Additional Information
 * We tried send data through serialization, but we couldn't get it to work. We tried sending lines to opponents, but after trying several methods of sending data, we could not send lines to opponents. We had functions that could manually add lines to our own game, but not to our opponent's lines.
+* We also tried implementing the bombs in Tetris Battles, but that didn't work out either. There may be a make error with the bomb functions, but the game should still work as it should.
 * If you are interested in running with valgrind, do ```make vs``` to run the server with valgrind and ```make vc``` to run the client with valgrind. Note that the errors in valgrind result from ncurses' functions, and after looking it up, we found that these errors were normal with ncurses.
