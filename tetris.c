@@ -201,8 +201,6 @@ void ff_rotate(game *obj, int direction)
 
     // Put it back in its original location and try the next orientation.
     obj->falling.loc.col--;
-    // Worst case, we come back to the original orientation and it fits, so this
-    // loop will terminate.
   }
 
   ff_put(obj, obj->falling);
@@ -264,19 +262,30 @@ static void ff_shift_lines(game *obj, int r)
 void ff_getline(game *obj, int r, WINDOW* board)
 {
   ff_remove(obj, obj->falling);
-  int i, j,k,z;
+  int i,j,k,z;
   for (i = 1; i <= r; i++) {
     for (j = 0; j < obj->cols; j++) {
       ff_set(obj, i-1, j, ff_get(obj, i, j));
       ff_set(obj, i, j, EMPTY);
     }
-    init_pair(16, COLOR_BLACK, COLOR_WHITE);
+    init_pair(16, COLOR_GREEN, COLOR_GREEN);
+    init_pair(17, COLOR_BLACK, COLOR_BLACK);
   }
   obj->rows -= 1;
+  srand(time(NULL));
+  int l = rand() % 20 + 1;
   for (z = obj->rows+1; z <= r; z++) {
     for (k = 0; k <= 20; k++) {
-      wattron(board,COLOR_PAIR(16)); mvwaddch(board,r,k, ' ');
-      wattroff(board,COLOR_PAIR(16));
+      if(k == l && l == 20){
+	wattron(board,COLOR_PAIR(17)); 
+	mvwaddstr(board,r,k,"aa"); 
+      }else if(k == l){
+	wattron(board,COLOR_PAIR(17));
+	mvwaddstr(board,r,k-1,"aa");
+      }else {
+	wattron(board,COLOR_PAIR(16)); mvwaddch(board,r,k, ' ');
+	wattroff(board,COLOR_PAIR(16));
+      }
     }
   }
   for (i = 0; i < 20; i++) {
@@ -285,6 +294,7 @@ void ff_getline(game *obj, int r, WINDOW* board)
   }
   ff_put(obj, obj->falling); // NNEEEDS FIXX
 }
+
 /*
   Find rows that are filled, remove them, shift, and return the number of
   cleared rows.
