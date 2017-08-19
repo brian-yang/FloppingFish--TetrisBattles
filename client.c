@@ -46,7 +46,7 @@ int main( int argc, char *argv[] ) {
   }
 
   printf("Game started!\n");
-  printf("\e[8;50;200t\n");
+  /* printf("\e[8;50;200t\n"); */
 
   //==========================================
   game *ff;

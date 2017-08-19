@@ -36,7 +36,8 @@ Use z to switch out pieces, and after a line has been completed, your score will
 
 ## Additional Information/Bugs
 ### Important notes
-* Any computer can connect to the server and play as long as the client has the server's IP. However, the server can only accept a maximum of 10 connections after t is first run before the server must be restarted. For example, you start the server, and let's say you disconnect and reconnect 10 times, even though you haven't played a game. After the 10th time, the server will refuse the connection, and the server must be restarted.
+* Any computer can connect to the server and play as long as the client has the server's IP. However, the server can only accept a maximum of ```#NUM_USERS``` (which by default is set to 10) connections after it is first run before the server must be restarted. For example, you start the server, and let's say you disconnect and reconnect 10 times, even though you haven't played a game. After the 10th time, the server will refuse the connection, and the server must be restarted. 
+* **However**, if you change the number of users (```#NUM_USERS```) in ```server.c```, then you can set the maximum number of connections to whatever number you want.
 * Our documentation can be found in DOCUMENTATION.pdf
 
 ### Bugs
