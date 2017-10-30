@@ -10,7 +10,7 @@
 
 #include "networking.h"
 
-#define NUM_USERS 20
+#define NUM_USERS 30
 
 void sub_server1( int connection, int read_pipe, int write_pipe, char* buffer);
 void sub_server2( int connection, int read_pipe, int write_pipe, char* buffer);
